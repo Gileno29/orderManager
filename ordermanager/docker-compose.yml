@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  web:
+    volumes:
+      - static:/app/static
+    build:
+      context: .
+    ports:
+      - "8001:8000"
+    depends_on:
+      - db
+    networks:
+      - database
+      - webnet
+
+  db:
+    image: postgres:13
+    command: -c 'max_connections=5000'
+    environment:
+      POSTGRES_USER: userorder
+      POSTGRES_PASSWORD: orderpass
+      POSTGRES_DB: order
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - database
+  nginx:
+    build: ./nginx
+    volumes:
+      - static:/static
+    ports:
+      - "80:80"
+    depends_on:
+      - web
+    networks:
+      - webnet
+
+volumes:
+  postgres_data:
+  static:
+
+networks:
+  webnet:
+  database:
