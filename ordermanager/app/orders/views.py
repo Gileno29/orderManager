@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 from django.http.response import Http404
 from django.http import JsonResponse
 from django.views import View
-from .models import Produto
+from .models import Produto, Cliente
 from .forms import ClienteForm
 
 
@@ -37,3 +37,7 @@ def cadastrarClientesSubmit(request):
         if form.is_valid():
             form.save()  # Salva o cliente no banco de dados
             return redirect('/cadastrar-cliente')  
+        
+def listar_clientes(request):
+    clientes = Cliente.objects.all()  # Busca todos os clientes no banco de dados
+    return render(request, 'list-clientes.html', {'clientes': clientes})

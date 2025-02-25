@@ -26,5 +26,6 @@ urlpatterns = [
     path('', orderviews.index ),
     path('buscar-produtos/', orderviews.BuscarProdutosView.as_view(), name='buscar_produtos'),
     path('cadastrar-cliente/', orderviews.cadastarClientesForm, name='cadastrar_cliente'),
-     path('cadastrar-cliente/submit/', orderviews.cadastrarClientesSubmit, name='cadastrar_submicao'),
+    path('cadastrar-cliente/submit/', orderviews.cadastrarClientesSubmit, name='cadastrar_submicao'),
+    path('list-clientes/', orderviews.listar_clientes, name='list_clientes'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
