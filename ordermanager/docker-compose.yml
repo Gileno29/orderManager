@@ -9,7 +9,8 @@ services:
     ports:
       - "8001:8000"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     networks:
       - database
       - webnet
@@ -25,6 +26,11 @@ services:
       - postgres_data:/var/lib/postgresql/data
     networks:
       - database
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U userorder -d order"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
   nginx:
     build: ./nginx
     volumes:

@@ -24,7 +24,7 @@ class Cliente(models.Model):
 
 
 class Produto(models.Model):
-
+    
     nome = models.CharField(max_length=100, verbose_name="Nome do Produto")
     descricao = models.TextField(blank=True, null=True, verbose_name="Descrição")
     preco = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Preço Unitário")
