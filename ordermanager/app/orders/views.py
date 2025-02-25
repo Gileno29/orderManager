@@ -39,14 +39,14 @@ def cadastrarClientesSubmit(request):
             return redirect('/cadastrar-cliente')  
 
 
-def cadastar_clientes_form(request):
+def cadastar_produtos_form(request):
     # Redireciona para uma página de sucesso
     
     form = ProdutoForm()  # Instancia um formulário vazio (para GET)
     # Passa o formulário para o template
     return render(request, 'cad-produtos.html', {'form': form})
 
-def cadastrar_clientes_submit(request):
+def cadastrar_produtos_submit(request):
     if request.method == 'POST':
         form = ClienteForm(request.POST)  # Instancia o formulário com os dados enviados
         if form.is_valid():
