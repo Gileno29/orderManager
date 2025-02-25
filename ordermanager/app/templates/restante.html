@@ -1,0 +1,74 @@
+ <!-- Reports Section -->
+ <div id="reports-section" class="content-section" style="display: none;">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="card-title">Total de Pedidos</h6>
+                    <h2 id="total-orders">0</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="card-title">Faturamento Total</h6>
+                    <h2 id="total-revenue">R$ 0,00</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="card-title">Produtos Vendidos</h6>
+                    <h2 id="total-products">0</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mt-4">
+        <div class="card-header">
+            <h5 class="mb-0">Pedidos Pendentes</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Cliente</th>
+                            <th>Valor Total</th>
+                            <th>Data</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pending-orders-table">
+                        <!-- Pending orders will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mt-4">
+        <div class="card-header">
+            <h5 class="mb-0">Clientes Mais Ativos</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Cliente</th>
+                            <th>Total de Pedidos</th>
+                            <th>Valor Total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="top-customers-table">
+                        <!-- Top customers will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

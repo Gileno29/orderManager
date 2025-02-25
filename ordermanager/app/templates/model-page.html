@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   {% include "model-header.html" %}
+
+</head>
+   <body>
+      <div class="container-fluid">
+         <div class="row">
+            
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-md-12">
+                    {% block content %} {% endblock %}
+                  </div>
+      
+                </div>
+                
+              </div>
+              
+            </div>
+
+         {% include "model-footer.html" %}
+      </div>
+   </body>
+</html>

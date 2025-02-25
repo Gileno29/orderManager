@@ -1,0 +1,115 @@
+{% extends "model-page.html" %}
+
+{% block content %}
+<div class="row">
+    <!-- Sidebar -->
+        <!-- Sidebar -->
+        <div class="col-md-2 sidebar py-3 bg-light border-end">
+            <div class="d-flex flex-column">
+                <h4 class="mb-4 text-primary">Vendas</h4>
+                <button class="btn btn-link text-start mb-2 active" data-tab="orders">
+                    <i class="bi bi-box-seam me-2"></i>
+                    Pedidos
+                </button>
+                <button class="btn btn-link text-start" data-tab="reports">
+                    <i class="bi bi-bar-chart me-2"></i>
+                    Relatórios
+                </button>
+                <button class="btn btn-link text-start" data-tab="reports">
+                    <i class="bi bi-bar-chart me-2"></i>
+                    Adicionar Produtos
+                </button>
+
+                <button class="btn btn-link text-start" data-tab="reports">
+                    <i class="bi bi-bar-chart me-2"></i>
+                    Adicionar Clientes
+                </button>
+            </div>
+        </div>
+    
+        <!-- Main Content -->
+        <main class="col-md-10 main-content p-4">
+            <!-- Orders Section -->
+            <div id="orders-section" class="content-section">
+                <div class="card shadow-sm">
+                    <div class="card-header d-flex justify-content-between align-items-center bg-white py-3">
+                        <h5 class="mb-0 text-primary">Pedidos</h5>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newOrderModal">
+                            Novo Pedido
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">Cliente</th>
+                                        <th scope="col">Valor Total</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Data</th>
+                                        <th scope="col">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="orders-table-body">
+                                    <!-- Orders will be inserted here by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+
+
+<!-- New Order Modal -->
+<div class="modal fade" id="newOrderModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Novo Pedido</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="newOrderForm">
+                    <div class="mb-3">
+                        <label for="customerName" class="form-label">Nome do Cliente</label>
+                        <input type="text" class="form-control" id="customerName" required>
+                    </div>
+                    <div id="products-container">
+                        <div class="product-entry mb-3">
+                            <h6>Produto 1</h6>
+                            <div class="row">
+                                <div class="col">
+                                    <label class="form-label">Nome</label>
+                                    <input type="text" class="form-control product-name" required data-autocomplete-url="{% url 'buscar_produtos' %}">
+                                </div>
+                                <div class="col">
+                                    <label class="form-label">Quantidade</label>
+                                    <input type="number" class="form-control product-quantity" min="1" required>
+                                </div>
+                                <div class="col">
+                                    <label class="form-label">Preço</label>
+                                    <input type="number" class="form-control product-price" min="0" step="0.01" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-secondary mb-3" onclick="addProductField()">
+                        Adicionar Produto
+                    </button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="saveOrder()">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+{% endblock %}

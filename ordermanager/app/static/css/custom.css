@@ -1,0 +1,15 @@
+
+.sidebar .btn-link {
+    color: #495057;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.sidebar .btn-link:hover {
+    color: #0d6efd; /* Cor do hover */
+}
+
+.sidebar .btn-link.active {
+    color: #0d6efd; /* Cor do botão ativo */
+    font-weight: bold;
+}
