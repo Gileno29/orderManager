@@ -41,3 +41,7 @@ def cadastrarClientesSubmit(request):
 def listar_clientes(request):
     clientes = Cliente.objects.all()  # Busca todos os clientes no banco de dados
     return render(request, 'list-clientes.html', {'clientes': clientes})
+
+def listar_produtos(request):
+    produtos = Produto.objects.all()  # Busca todos os clientes no banco de dados
+    return render(request, 'list-produtos.html', {'produtos': produtos})
