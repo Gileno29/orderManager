@@ -51,10 +51,12 @@ class Pedido(models.Model):
 
     def __str__(self):
         return f"Pedido #{self.id} - {self.cliente.nome}"
+    def preco_total(self):
+        return self.quantidade * self.preco_unitario
 
-    class Meta:
-        verbose_name = "Pedido"
-        verbose_name_plural = "Pedidos"
+    def __str__(self):
+        return f"{self.quantidade}x {self.produto.nome} (R$ {self.preco_total():.2f})"
+   
 
     def save(self, *args, **kwargs):
         # Calcula o valor total somando os valores dos itens do pedido
@@ -62,6 +64,10 @@ class Pedido(models.Model):
             total=Sum(models.F('quantidade') * models.F('preco_unitario'))
         )['total'] or 0
         super().save(*args, **kwargs)
+    
+    class Meta:
+        verbose_name = "Pedido"
+        verbose_name_plural = "Pedidos"
 
 
 class ItemPedido(models.Model):
