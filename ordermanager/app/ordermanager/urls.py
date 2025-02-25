@@ -29,4 +29,5 @@ urlpatterns = [
     path('cadastrar-cliente/submit/', orderviews.cadastrarClientesSubmit, name='cadastrar_submicao'),
     path('list-clientes/', orderviews.listar_clientes, name='list_clientes'),
     path('list-produtos/', orderviews.listar_produtos, name='list_produtos'),
+    path('cadastrar-produto/submit/', orderviews.cadastrar_produtos_submit, name='cadastrar_submicao_produtos'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
