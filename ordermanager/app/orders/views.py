@@ -8,7 +8,7 @@ from django.http.response import Http404
 from django.http import JsonResponse
 from django.views import View
 from .models import Produto, Cliente
-from .forms import ClienteForm
+from .forms import ClienteForm, ProdutoForm
 
 
 # Create your views here.
@@ -37,7 +37,22 @@ def cadastrarClientesSubmit(request):
         if form.is_valid():
             form.save()  # Salva o cliente no banco de dados
             return redirect('/cadastrar-cliente')  
-        
+
+
+def cadastar_clientes_form(request):
+    # Redireciona para uma página de sucesso
+    
+    form = ProdutoForm()  # Instancia um formulário vazio (para GET)
+    # Passa o formulário para o template
+    return render(request, 'cad-produtos.html', {'form': form})
+
+def cadastrar_clientes_submit(request):
+    if request.method == 'POST':
+        form = ClienteForm(request.POST)  # Instancia o formulário com os dados enviados
+        if form.is_valid():
+            form.save()  # Salva o cliente no banco de dados
+            return redirect('/list-produto') 
+
 def listar_clientes(request):
     clientes = Cliente.objects.all()  # Busca todos os clientes no banco de dados
     return render(request, 'list-clientes.html', {'clientes': clientes})
