@@ -1,0 +1,39 @@
+{% extends "model-page.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <h2 class="text-center mb-4">Cadastro de Cliente</h2>
+        
+        <!-- Formulário de Cadastro -->
+        <form method="post" class="card p-4" action="submit/">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+                <label for="id_nome" class="form-label">Nome</label>
+                {{ form.nome }}
+            </div>
+            
+            <div class="mb-3">
+                <label for="id_descricao" class="form-label">E-mail</label>
+                {{ form.descricao }}
+            </div>
+
+            <div class="mb-3">
+                <label for="id_preco" class="form-label">Telefone</label>
+                {{ form.preco }}
+            </div>
+            
+            <!-- Botão de Envio -->
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Salvar</button>
+            </div>
+        </form>
+    </div>
+  
+</div>
+
+
+
+
+{% endblock %}
