@@ -32,10 +32,10 @@
                         <td>{{ cliente.telefone }}</td>
                         <td>{{ cliente.endereco }}</td>
                         <td>
-                            <a href="#" class="btn btn-sm btn-warning" title="Editar">
+                            <a  href="{% url 'editar_cliente' cliente.id %}" class="btn btn-sm btn-warning" title="Editar">
                                 <i class="bi bi-pencil"></i>
                             </a>
-                            <a href="#" class="btn btn-sm btn-danger" title="Excluir">
+                            <a  href="{% url 'excluir_cliente' cliente.id %}" class="btn btn-sm btn-danger" title="Excluir" onclick="return confirm('Tem certeza que deseja excluir este produto?');">
                                 <i class="bi bi-trash"></i>
                             </a>
                         </td>

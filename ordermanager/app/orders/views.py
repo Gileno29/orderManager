@@ -30,45 +30,72 @@ def cadastar_clientes_form(request):
     # Passa o formulário para o template
     return render(request, 'cad-clientes.html', {'form': form})
 
-def cadastrar_clientes_submit(request):
+def cadastrar_clientes_submit(request, cliente_id=None):
     if request.method == 'POST':
-        form = ClienteForm(request.POST)  # Instancia o formulário com os dados enviados
+        if cliente_id:
+            cliente= Cliente.objects.get(id=cliente_id)
+            form = ClienteForm(request.POST, instance=cliente)
+        else:
+            form = ClienteForm(request.POST)  
         if form.is_valid():
-            form.save()  # Salva o cliente no banco de dados
-            return redirect('/cadastrar-cliente')  
+            form.save()  
+            return redirect('/list-clientes')
 
+
+
+def editar_cliente(request, cliente_id):
+
+    cliente = Cliente.objects.get(id=cliente_id)
+
+    if not cliente:
+        return redirect('list_clientes') 
+
+    form = ClienteForm(instance=cliente)  
+
+    return render(request, 'editar-cliente.html', {'form': form, 'cliente_id': cliente.id})
+
+
+def excluir_cliente(request, cliente_id):
+    cliente = Cliente.objects.get(id=cliente_id)
+    if cliente:
+        cliente.delete() 
+    return redirect('list_produtos') 
 
 def cadastar_produtos_form(request):
-    # Redireciona para uma página de sucesso
+
     
-    form = ProdutoForm()  # Instancia um formulário vazio (para GET)
-    # Passa o formulário para o template
+    form = ProdutoForm()  
+   
     return render(request, 'cad-produtos.html', {'form': form})
 
 def cadastrar_produtos_submit(request, produto_id=None):
     if request.method == 'POST':
         if produto_id:
-            produto = get_object_or_404(Produto, id=produto_id)  # Busca o produto pelo ID
+            produto = get_object_or_404(Produto, id=produto_id)  
             form = ProdutoForm(request.POST, instance=produto)
         
         else:
-            form = ProdutoForm(request.POST)  # Instancia o formulário com os dados enviados
+            form = ProdutoForm(request.POST)  
         if form.is_valid():
-            form.save()  # Salva o cliente no banco de dados
+            form.save()  
             return redirect('/list-produtos') 
 
 def listar_clientes(request):
-    clientes = Cliente.objects.all()  # Busca todos os clientes no banco de dados
+    clientes = Cliente.objects.all()  
     return render(request, 'list-clientes.html', {'clientes': clientes})
+
 
 def listar_produtos(request):
     produtos = Produto.objects.all()  # Busca todos os clientes no banco de dados
     return render(request, 'list-produtos.html', {'produtos': produtos})
 
+
 def excluir_produto(request, produto_id):
     produto = get_object_or_404(Produto, id=produto_id)  
     produto.delete()  # Exclui o produto
     return redirect('list_produtos') 
+
+
 
 def editar_produto(request, produto_id):
 

@@ -1,0 +1,47 @@
+{% extends "model-page.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <h2 class="text-center mb-4">Editar Clientes</h2>
+        
+        <!-- Formulário de Edição -->
+        <form method="post" class="card p-4" action="{% url 'editar_submicao' cliente_id %}" >
+            {% csrf_token %}
+            
+            <div class="mb-3">
+                <label for="id_nome" class="form-label">Nome</label>
+                {{ form.nome }}
+            </div>
+            
+            <!-- Descrição -->
+            <div class="mb-3">
+                <label for="id_email" class="form-label">Email</label>
+                {{ form.email }}
+            </div>
+            
+            <!-- Preço -->
+            <div class="mb-3">
+                <label for="id_telefone" class="form-label">Telefone</label>
+                {{ form.telefone }}
+            </div>
+
+            <div class="mb-3">
+                <label for="id_cpfcnpj" class="form-label">CPF/CNPJ</label>
+                {{ form.cpfcnpj }}
+            </div>
+
+            <div class="mb-3">
+                <label for="id_endereco" class="form-label">Endereço</label>
+                {{ form.endereco }}
+            </div>
+            
+            <!-- Botão de Envio -->
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                <a href="{% url 'list_clientes' %}" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
