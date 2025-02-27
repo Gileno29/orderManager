@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from orders import views as orderviews
+from orders import views_api as apiview
 from django.views.generic import RedirectView
 from django.conf.urls.static import static
 from django.conf import settings
@@ -41,4 +42,5 @@ urlpatterns = [
     path('editar-pedido/<int:pedido_id>/editar/', orderviews.editar_pedido, name='editar_pedido'),
     path('excluir-pedido/<int:pedido_id>/', orderviews.excluir_pedido, name='excluir_pedido'),
     path('relatorios/', orderviews.relatorios, name='relatorios'),
+    path('api/encontrar-vogal/', apiview.EncontrarVogalView.as_view(), name='encontrar_vogal'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -2,15 +2,11 @@
 
 {% block content %}
 <div class="row">
-    <!-- Sidebar -->
         <!-- Sidebar -->
         <div class="col-md-2 sidebar py-3 bg-light border-end">
             <div class="d-flex flex-column">
-                <h4 class="mb-4 text-primary">Vendas</h4>
-                <button class="btn btn-link text-start mb-2 active" data-tab="orders">
-                    <i class="bi bi-box-seam me-2"></i>
-                    Pedidos
-                </button>
+                <h4 class="mb-4 text-success">Order Manager V.1.0</h4>
+        
                 <a href="{% url 'relatorios' %}" class="btn btn-warning mb-5">
                     <i class="bi bi-bar-chart me-2"></i>
                     Relatórios
@@ -67,8 +63,8 @@
                                             <td>{{ pedido.get_status_display }}</td>
                                             <td>{{ pedido.data_pedido|date:"d/m/Y H:i" }}</td>
                                             <td>
-                                                <a href="{% url 'editar_pedido' pedido.id %}" class="btn btn-sm btn-warning">Editar</a>
-                                                <a href="{% url 'excluir_pedido' pedido.id %}" class="btn btn-sm btn-danger" title="Excluir" onclick="return confirm('Tem certeza que deseja excluir este produto?');">Excluir</a>
+                                                <a href="{% url 'editar_pedido' pedido.id %}" class="btn btn-sm btn-warning"> <i class="bi bi-pencil"></i></a>
+                                                <a href="{% url 'excluir_pedido' pedido.id %}" class="btn btn-sm btn-danger" title="Excluir" onclick="return confirm('Tem certeza que deseja excluir este produto?');"><i class="bi bi-trash"></i></a>
                                             </td>
                                         </tr>
                                     {% endfor %}

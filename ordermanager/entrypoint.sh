@@ -3,5 +3,4 @@
 python manage.py makemigrations
 python manage.py migrate --no-input
 python manage.py collectstatic --no-input
-
-gunicorn ordermanager.wsgi:application --bind 0.0.0.0:8000    
+gunicorn --timeout 60 --workers 3 ordermanager.wsgi:application --bind 0.0.0.0:8000      

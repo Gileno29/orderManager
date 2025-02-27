@@ -18,16 +18,17 @@ services:
   db:
     image: postgres:13
     command: -c 'max_connections=5000'
+    env_file: .env
     environment:
-      POSTGRES_USER: userorder
-      POSTGRES_PASSWORD: orderpass
-      POSTGRES_DB: order
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
       - database
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U userorder -d order"]
+      test: ["CMD-SHELL", "pg_isready -U \"$POSTGRES_USER\" -d \"$POSTGRES_DB\""]
       interval: 5s
       timeout: 5s
       retries: 5

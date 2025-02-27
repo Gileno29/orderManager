@@ -6,7 +6,8 @@ from .models import Produto, Cliente, ItemPedido, Pedido
 from .forms import ClienteForm, ProdutoForm, ItemPedidoFormSet, PedidoForm
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Sum, Count
-from django.core.exceptions import ObjectDoesNotExist
+from django.utils import timezone
+from datetime import timedelta
 
 
 
@@ -15,16 +16,16 @@ def index(request):
     clientes = Cliente.objects.all()
     produtos = Produto.objects.all()
     itens_pedidos = ItemPedido.objects.all()
-    pedidos = Pedido.objects.all()
+    ultimas_24h = timezone.now() - timedelta(hours=24)
+    pedidos = Pedido.objects.filter(data_pedido__gte=ultimas_24h)
+    
     return render(request, 'main.html', {
         'clientes': clientes,
         'produtos': produtos,
         'itens_pedidos':itens_pedidos,
         'pedidos': pedidos
     })
-    #return  render(request, 'main.html',)
-
-
+  
 
 class BuscarProdutosView(View):
     def get(self, request, *args, **kwargs):
@@ -34,10 +35,10 @@ class BuscarProdutosView(View):
 
 
 def cadastar_clientes_form(request):
-    # Redireciona para uma página de sucesso
     
-    form = ClienteForm()  # Instancia um formulário vazio (para GET)
-    # Passa o formulário para o template
+    
+    form = ClienteForm()  
+
     return render(request, 'cad-clientes.html', {'form': form})
 
 def cadastrar_clientes_submit(request, cliente_id=None):
@@ -131,17 +132,17 @@ def salvar_pedido(request):
 
         if cliente_id and produtos and quantidades:
             try:
-                # Verifica se o cliente existe
+                
                 cliente = Cliente.objects.get(id=cliente_id)
             except Cliente.DoesNotExist:
                 messages.error(request, 'Cliente não encontrado.')
                 return redirect('main_page')
 
             try:
-                # Cria um único pedido
+                
                 pedido = Pedido.objects.create(cliente=cliente)
 
-                # Associa todos os itens ao mesmo pedido
+               
                 for produto_id, quantidade in zip(produtos, quantidades):
                     try:
                         produto = Produto.objects.get(id=produto_id)
@@ -152,9 +153,9 @@ def salvar_pedido(request):
                         )
                     except Produto.DoesNotExist:
                         messages.error(request, f'Produto com ID {produto_id} não encontrado.')
-                        continue  # Ignora o produto inválido e continua com os demais
+                        continue 
 
-                # Atualiza o valor total do pedido
+               
                 pedido.atualizar_valor_total()
 
                 messages.success(request, 'Pedido salvo com sucesso!')
@@ -177,20 +178,20 @@ def editar_pedido(request, pedido_id):
     pedido = get_object_or_404(Pedido, id=pedido_id)
 
     if request.method == 'POST':
-        # Processa o formulário do pedido e o FormSet dos itens
+        
         pedido_form = PedidoForm(request.POST, instance=pedido)
         formset = ItemPedidoFormSet(request.POST, instance=pedido)
 
         if pedido_form.is_valid() and formset.is_valid():
-            pedido_form.save()  # Salva o status do pedido
-            formset.save()  # Salva os itens do pedido
-            pedido.atualizar_valor_total()  # Atualiza o valor total do pedido
+            pedido_form.save()  
+            formset.save() 
+            pedido.atualizar_valor_total()  
             messages.success(request, 'Pedido atualizado com sucesso!')
             return redirect('main_page')
         else:
             messages.error(request, 'Erro ao atualizar o pedido. Verifique os dados.')
     else:
-        # Exibe o formulário de edição
+        
         pedido_form = PedidoForm(instance=pedido)
         formset = ItemPedidoFormSet(instance=pedido)
 
@@ -207,18 +208,18 @@ def excluir_pedido(request, pedido_id):
 
 
 def relatorios(request):
-    # Resumo das Vendas
+    
     total_pedidos = Pedido.objects.count()
     valor_total_faturado = Pedido.objects.aggregate(total=Sum('valor_total'))['total'] or 0
     quantidade_total_produtos = ItemPedido.objects.aggregate(total=Sum('quantidade'))['total'] or 0
 
-    # Pedidos Pendentes
+    
     pedidos_pendentes = Pedido.objects.filter(status='em_andamento')
 
-    # Clientes Mais Ativos
+    
     clientes_mais_ativos = Cliente.objects.annotate(
         total_pedidos=Count('pedido')   
-    ).order_by('-total_pedidos')[:10]  # Top 10 clientes
+    ).order_by('-total_pedidos')[:10] 
 
     return render(request, 'relatorios.html', {
         'total_pedidos': total_pedidos,
