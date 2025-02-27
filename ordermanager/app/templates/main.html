@@ -34,9 +34,9 @@
                 <div class="card shadow-sm">
                     <div class="card-header d-flex justify-content-between align-items-center bg-white py-3">
                         <h5 class="mb-0 text-primary">Pedidos</h5>
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newOrderModal">
+                        <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newOrderModal">
                             Novo Pedido
-                        </button>
+                        </a>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -61,10 +61,78 @@
             </div>
         </main>
 
+<div class="modal fade" id="newOrderModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Novo Pedido</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="newOrderForm" action="{% url 'salvar_pedido' %}" method="post">
+                    <!-- Dropdown para Cliente -->
+                    <div class="mb-3">
+                        <label for="customerSelect" class="form-label">Cliente</label>
+                        <select class="form-select" id="customerSelect" name="cliente_id" required>
+                            <option value="">Selecione um cliente</option>
+                            {% for cliente in clientes %}
+                                <option value="{{ cliente.id }}">{{ cliente.nome }} - {{ cliente.cpfcnpj }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
 
+                    <!-- Container para Produtos -->
+                    <div id="products-container">
+                        <div class="product-entry mb-3">
+                            <h6>Produto 1</h6>
+                            <div class="row">
+                                <div class="col">
+                                    <label class="form-label">Produto</label>
+                                    <select class="form-select product-select" name="produtos[]" required>
+                                        <option value="">Selecione um produto</option>
+                                        {% for produto in produtos %}
+                                            <option value="{{ produto.id }}" data-price="{{ produto.preco }}">
+                                                {{ produto.nome }} - {{ produto.preco }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <label class="form-label">Quantidade</label>
+                                    <input type="number" class="form-control product-quantity" name="quantidades[]" min="1" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botão para Adicionar Mais Produtos -->
+                    <button type="button" class="btn btn-secondary mb-3" onclick="addProductField()">
+                        Adicionar Produto
+                    </button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                    </div>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+
+{% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
 
 <!-- New Order Modal -->
-<div class="modal fade" id="newOrderModal" tabindex="-1">
+<!-- <div class="modal fade" id="newOrderModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -108,7 +176,7 @@
         </div>
     </div>
 </div>
-
+-->
 
 
 

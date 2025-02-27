@@ -23,7 +23,7 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', orderviews.index ),
+    path('', orderviews.index, name='main_page' ),
     path('buscar-produtos/', orderviews.BuscarProdutosView.as_view(), name='buscar_produtos'),
     path('cadastrar-cliente/', orderviews.cadastar_clientes_form, name='cadastrar_cliente'),
     path('cadastrar-cliente/submit/', orderviews.cadastrar_clientes_submit, name='cadastrar_submicao'),
@@ -37,4 +37,5 @@ urlpatterns = [
     path('cadastrar-produtos/submit/<int:produto_id>', orderviews.cadastrar_produtos_submit, name='editar_submicao_produtos'),
     path('excluir-produto/<int:produto_id>/', orderviews.excluir_produto, name='excluir_produto'),
     path('editar-produto/<int:produto_id>/', orderviews.editar_produto, name='editar_produto'),
+    path('salvar-pedido/', orderviews.salvar_pedido, name='salvar_pedido'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

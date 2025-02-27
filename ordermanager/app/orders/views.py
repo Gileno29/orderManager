@@ -1,18 +1,25 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from datetime import datetime, timedelta
-from django.http.response import Http404
 from django.http import JsonResponse
 from django.views import View
-from .models import Produto, Cliente
+from .models import Produto, Cliente, ItemPedido, Pedido
 from .forms import ClienteForm, ProdutoForm
+from django.views.decorators.csrf import csrf_exempt
+from django.core.exceptions import ObjectDoesNotExist
+
 
 
 # Create your views here.
 def index(request):
-    return  render(request, 'main.html',)
+    clientes = Cliente.objects.all()
+    produtos = Produto.objects.all()
+    itens_pedidos= ItemPedido.objects.all()
+    return render(request, 'main.html', {
+        'clientes': clientes,
+        'produtos': produtos,
+        'itens_pedidos':itens_pedidos,
+    })
+    #return  render(request, 'main.html',)
 
 
 
@@ -68,6 +75,7 @@ def cadastar_produtos_form(request):
    
     return render(request, 'cad-produtos.html', {'form': form})
 
+
 def cadastrar_produtos_submit(request, produto_id=None):
     if request.method == 'POST':
         if produto_id:
@@ -107,3 +115,55 @@ def editar_produto(request, produto_id):
     form = ProdutoForm(instance=produto)  
 
     return render(request, 'editar-produto.html', {'form': form, 'produto_id': produto.id})
+
+
+
+
+@csrf_exempt
+def salvar_pedido(request):
+    if request.method == 'POST':
+        cliente_id = request.POST.get('cliente_id')
+        produtos = request.POST.getlist('produtos[]')
+        quantidades = request.POST.getlist('quantidades[]')
+
+        if cliente_id and produtos and quantidades:
+            try:
+                # Verifica se o cliente existe
+                cliente = Cliente.objects.get(id=cliente_id)
+            except Cliente.DoesNotExist:
+                messages.error(request, 'Cliente não encontrado.')
+                return redirect('main_page')
+
+            try:
+                # Cria um único pedido
+                pedido = Pedido.objects.create(cliente=cliente)
+
+                # Associa todos os itens ao mesmo pedido
+                for produto_id, quantidade in zip(produtos, quantidades):
+                    try:
+                        produto = Produto.objects.get(id=produto_id)
+                        ItemPedido.objects.create(
+                            pedido=pedido,
+                            produto=produto,
+                            quantidade=quantidade
+                        )
+                    except Produto.DoesNotExist:
+                        messages.error(request, f'Produto com ID {produto_id} não encontrado.')
+                        continue  # Ignora o produto inválido e continua com os demais
+
+                # Atualiza o valor total do pedido
+                pedido.atualizar_valor_total()
+
+                messages.success(request, 'Pedido salvo com sucesso!')
+                return redirect('main_page')
+            except Exception as e:
+                messages.error(request, f'Erro ao salvar o pedido: {str(e)}')
+        else:
+            messages.error(request, 'Dados inválidos. Preencha todos os campos.')
+    else:
+        messages.error(request, 'Método de requisição inválido.')
+
+    return render(request, 'main.html', {
+        'clientes': Cliente.objects.all(),
+        'produtos': Produto.objects.all(),
+    })
