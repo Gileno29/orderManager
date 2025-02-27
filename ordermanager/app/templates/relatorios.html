@@ -1,0 +1,108 @@
+{% extends "model-page.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Relatórios de Vendas</h2>
+
+    <!-- Resumo das Vendas -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-white">
+            <h5 class="mb-0 text-primary">Resumo das Vendas</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">Total de Pedidos</h5>
+                            <p class="card-text display-4">{{ total_pedidos }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">Valor Total Faturado</h5>
+                            <p class="card-text display-4">R$ {{ valor_total_faturado|floatformat:2 }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">Produtos Vendidos</h5>
+                            <p class="card-text display-4">{{ quantidade_total_produtos }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pedidos Pendentes -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-white">
+            <h5 class="mb-0 text-primary">Pedidos Pendentes</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Cliente</th>
+                            <th>Valor Total</th>
+                            <th>Data</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for pedido in pedidos_pendentes %}
+                            <tr>
+                                <td>{{ pedido.id }}</td>
+                                <td>{{ pedido.cliente.nome }}</td>
+                                <td>R$ {{ pedido.valor_total|floatformat:2 }}</td>
+                                <td>{{ pedido.data_pedido|date:"d/m/Y H:i" }}</td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center">Nenhum pedido pendente.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Clientes Mais Ativos -->
+    <div class="card shadow-sm">
+        <div class="card-header bg-white">
+            <h5 class="mb-0 text-primary">Clientes Mais Ativos</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Cliente</th>
+                            <th>Total de Pedidos</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for cliente in clientes_mais_ativos %}
+                            <tr>
+                                <td>{{ cliente.nome }}</td>
+                                <td>{{ cliente.total_pedidos }}</td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="2" class="text-center">Nenhum cliente encontrado.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

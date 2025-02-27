@@ -40,4 +40,5 @@ urlpatterns = [
     path('salvar-pedido/', orderviews.salvar_pedido, name='salvar_pedido'),
     path('editar-pedido/<int:pedido_id>/editar/', orderviews.editar_pedido, name='editar_pedido'),
     path('excluir-pedido/<int:pedido_id>/', orderviews.excluir_pedido, name='excluir_pedido'),
+    path('relatorios/', orderviews.relatorios, name='relatorios'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

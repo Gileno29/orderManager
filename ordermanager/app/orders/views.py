@@ -5,6 +5,7 @@ from django.views import View
 from .models import Produto, Cliente, ItemPedido, Pedido
 from .forms import ClienteForm, ProdutoForm, ItemPedidoFormSet
 from django.views.decorators.csrf import csrf_exempt
+from django.db.models import Sum, Count
 from django.core.exceptions import ObjectDoesNotExist
 
 
@@ -195,6 +196,29 @@ def editar_pedido(request, pedido_id):
 
 def excluir_pedido(request, pedido_id):
     pedido = get_object_or_404(Pedido, id=pedido_id)  
-    pedido.delete()  # Exclui o produto
+    pedido.delete()  
     return redirect('main_page') 
+
+
+def relatorios(request):
+    # Resumo das Vendas
+    total_pedidos = Pedido.objects.count()
+    valor_total_faturado = Pedido.objects.aggregate(total=Sum('valor_total'))['total'] or 0
+    quantidade_total_produtos = ItemPedido.objects.aggregate(total=Sum('quantidade'))['total'] or 0
+
+    # Pedidos Pendentes
+    pedidos_pendentes = Pedido.objects.filter(status='em_andamento')
+
+    # Clientes Mais Ativos
+    clientes_mais_ativos = Cliente.objects.annotate(
+        total_pedidos=Count('pedido')   
+    ).order_by('-total_pedidos')[:10]  # Top 10 clientes
+
+    return render(request, 'relatorios.html', {
+        'total_pedidos': total_pedidos,
+        'valor_total_faturado': valor_total_faturado,
+        'quantidade_total_produtos': quantidade_total_produtos,
+        'pedidos_pendentes': pedidos_pendentes,
+        'clientes_mais_ativos': clientes_mais_ativos,
+    })
 

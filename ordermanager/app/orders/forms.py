@@ -24,10 +24,14 @@ class ProdutoForm(forms.ModelForm):
             'descricao': forms.TextInput(attrs={'class': 'form-control'}),
             'preco': forms.NumberInput(attrs={'class': 'form-control'}),
         }
+class PedidoForm(forms.ModelForm):
+    class Meta:
+        model = Pedido
+        fields = ['status'] 
 ItemPedidoFormSet = inlineformset_factory(
     Pedido,  # Modelo pai
     ItemPedido,  # Modelo filho
-    fields=('produto', 'quantidade'),  # Campos que podem ser editados
+    fields=('produto', 'quantidade' ),  # Campos que podem ser editados
     extra=1,  # Número de formulários extras em branco
     can_delete=True,  # Permite excluir itens
 )
