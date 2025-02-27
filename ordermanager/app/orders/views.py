@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.http import JsonResponse
 from django.views import View
 from .models import Produto, Cliente, ItemPedido, Pedido
-from .forms import ClienteForm, ProdutoForm, ItemPedidoFormSet
+from .forms import ClienteForm, ProdutoForm, ItemPedidoFormSet, PedidoForm
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Sum, Count
 from django.core.exceptions import ObjectDoesNotExist
@@ -177,20 +177,26 @@ def editar_pedido(request, pedido_id):
     pedido = get_object_or_404(Pedido, id=pedido_id)
 
     if request.method == 'POST':
+        # Processa o formulário do pedido e o FormSet dos itens
+        pedido_form = PedidoForm(request.POST, instance=pedido)
         formset = ItemPedidoFormSet(request.POST, instance=pedido)
-        if formset.is_valid():
-            formset.save()  # Salva as alterações no FormSet
+
+        if pedido_form.is_valid() and formset.is_valid():
+            pedido_form.save()  # Salva o status do pedido
+            formset.save()  # Salva os itens do pedido
             pedido.atualizar_valor_total()  # Atualiza o valor total do pedido
             messages.success(request, 'Pedido atualizado com sucesso!')
             return redirect('main_page')
         else:
-            # Exibe erros de validação
             messages.error(request, 'Erro ao atualizar o pedido. Verifique os dados.')
     else:
+        # Exibe o formulário de edição
+        pedido_form = PedidoForm(instance=pedido)
         formset = ItemPedidoFormSet(instance=pedido)
 
     return render(request, 'editar-pedido.html', {
         'pedido': pedido,
+        'pedido_form': pedido_form,
         'formset': formset,
     })
 

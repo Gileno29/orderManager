@@ -12,6 +12,7 @@
 
     <form method="post">
         {% csrf_token %}
+        {{ pedido_form.as_p }}
         {{ formset.management_form }}  <!-- Não esqueça do management_form! -->
         
         <table class="table">
