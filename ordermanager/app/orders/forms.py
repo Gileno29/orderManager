@@ -1,5 +1,7 @@
 from django import forms 
-from .models import Cliente, Produto
+from .models import Cliente, Produto, ItemPedido, Pedido
+from django.forms import inlineformset_factory
+
 class ClienteForm(forms.ModelForm):
     class Meta:
         model= Cliente
@@ -22,3 +24,10 @@ class ProdutoForm(forms.ModelForm):
             'descricao': forms.TextInput(attrs={'class': 'form-control'}),
             'preco': forms.NumberInput(attrs={'class': 'form-control'}),
         }
+ItemPedidoFormSet = inlineformset_factory(
+    Pedido,  # Modelo pai
+    ItemPedido,  # Modelo filho
+    fields=('produto', 'quantidade'),  # Campos que podem ser editados
+    extra=1,  # Número de formulários extras em branco
+    can_delete=True,  # Permite excluir itens
+)

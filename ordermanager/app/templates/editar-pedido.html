@@ -1,0 +1,58 @@
+{% extends "model-page.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Editar Pedido #{{ pedido.id }}</h2>
+    <p><strong>Cliente:</strong> {{ pedido.cliente.nome }}</p>
+    <p><strong>Valor Total:</strong> R$ {{ pedido.valor_total }}</p>
+    <p><strong>Status:</strong> {{ pedido.get_status_display }}</p>
+    <p><strong>Data:</strong> {{ pedido.data_pedido|date:"d/m/Y H:i" }}</p>
+
+    <hr>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ formset.management_form }}  <!-- Não esqueça do management_form! -->
+        
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Produto</th>
+                    <th>Quantidade</th>
+                    <th>Excluir</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for form in formset %}
+                    <tr>
+                        <td>
+                            {{ form.id }}  <!-- Campo oculto para o ID do item -->
+                            {{ form.produto }}
+                        </td>
+                        <td>{{ form.quantidade }}</td>
+                        <td>
+                            {% if form.instance.pk %}  <!-- Exibe o checkbox DELETE apenas para itens existentes -->
+                                {{ form.DELETE }}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% if form.errors %}
+                        <tr>
+                            <td colspan="3">
+                                <div class="alert alert-danger">
+                                    {% for field, errors in form.errors.items %}
+                                        {{ field }}: {{ errors|join:", " }}
+                                    {% endfor %}
+                                </div>
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+        <a href="{% url 'main_page' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

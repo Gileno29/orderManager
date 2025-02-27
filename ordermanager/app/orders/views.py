@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.http import JsonResponse
 from django.views import View
 from .models import Produto, Cliente, ItemPedido, Pedido
-from .forms import ClienteForm, ProdutoForm
+from .forms import ClienteForm, ProdutoForm, ItemPedidoFormSet
 from django.views.decorators.csrf import csrf_exempt
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -13,11 +13,13 @@ from django.core.exceptions import ObjectDoesNotExist
 def index(request):
     clientes = Cliente.objects.all()
     produtos = Produto.objects.all()
-    itens_pedidos= ItemPedido.objects.all()
+    itens_pedidos = ItemPedido.objects.all()
+    pedidos = Pedido.objects.all()
     return render(request, 'main.html', {
         'clientes': clientes,
         'produtos': produtos,
         'itens_pedidos':itens_pedidos,
+        'pedidos': pedidos
     })
     #return  render(request, 'main.html',)
 
@@ -167,3 +169,32 @@ def salvar_pedido(request):
         'clientes': Cliente.objects.all(),
         'produtos': Produto.objects.all(),
     })
+
+
+
+def editar_pedido(request, pedido_id):
+    pedido = get_object_or_404(Pedido, id=pedido_id)
+
+    if request.method == 'POST':
+        formset = ItemPedidoFormSet(request.POST, instance=pedido)
+        if formset.is_valid():
+            formset.save()  # Salva as alterações no FormSet
+            pedido.atualizar_valor_total()  # Atualiza o valor total do pedido
+            messages.success(request, 'Pedido atualizado com sucesso!')
+            return redirect('main_page')
+        else:
+            # Exibe erros de validação
+            messages.error(request, 'Erro ao atualizar o pedido. Verifique os dados.')
+    else:
+        formset = ItemPedidoFormSet(instance=pedido)
+
+    return render(request, 'editar-pedido.html', {
+        'pedido': pedido,
+        'formset': formset,
+    })
+
+def excluir_pedido(request, pedido_id):
+    pedido = get_object_or_404(Pedido, id=pedido_id)  
+    pedido.delete()  # Exclui o produto
+    return redirect('main_page') 
+
