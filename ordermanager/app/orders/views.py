@@ -1,13 +1,16 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.views import View
 from .models import Produto, Cliente, ItemPedido, Pedido
-from .forms import ClienteForm, ProdutoForm, ItemPedidoFormSet, PedidoForm
+from .forms import ClienteForm, ProdutoForm, ItemPedidoFormSet, PedidoForm, RelatorioPedidosForm
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Sum, Count
+from django.core.paginator import Paginator
 from django.utils import timezone
 from datetime import timedelta
+import csv
+
 
 
 
@@ -229,3 +232,68 @@ def relatorios(request):
         'clientes_mais_ativos': clientes_mais_ativos,
     })
 
+
+
+
+def relatorio_pedidos(request):
+    form = RelatorioPedidosForm(request.GET or None)
+    pedidos = Pedido.objects.all()
+
+    if form.is_valid():
+        data_inicial = form.cleaned_data.get('data_inicial')
+        data_final = form.cleaned_data.get('data_final')
+        status = form.cleaned_data.get('status')
+        cliente = form.cleaned_data.get('cliente')
+        produto = form.cleaned_data.get('produto')
+        valor_minimo = form.cleaned_data.get('valor_minimo')
+        quantidade_itens = form.cleaned_data.get('quantidade_itens')
+
+        # Aplicar filtros
+        if data_inicial:
+            pedidos = pedidos.filter(data_pedido__gte=data_inicial)
+        if data_final:
+            pedidos = pedidos.filter(data_pedido__lte=data_final)
+        if status:
+            pedidos = pedidos.filter(status=status)
+        if cliente:
+            pedidos = pedidos.filter(cliente=cliente)
+        if produto:
+            pedidos = pedidos.filter(itens__produto=produto).distinct()
+        if valor_minimo:
+            pedidos = pedidos.filter(valor_total__gte=valor_minimo)
+        if quantidade_itens:
+            pedidos = pedidos.annotate(num_itens=Count('itens')).filter(num_itens__gte=quantidade_itens)
+
+    # Ordenação
+    ordenacao = request.GET.get('ordenacao', 'data_pedido')
+    pedidos = pedidos.order_by(ordenacao)
+
+    # Exportar para CSV
+    if 'exportar_csv' in request.GET:
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="relatorio_pedidos.csv"'
+
+        writer = csv.writer(response)
+        writer.writerow(['ID', 'Cliente', 'Data', 'Status', 'Valor Total', 'Quantidade de Itens'])
+
+        for pedido in pedidos:
+            writer.writerow([
+                pedido.id,
+                pedido.cliente.nome,
+                pedido.data_pedido.strftime('%d/%m/%Y %H:%M'),
+                pedido.get_status_display(),
+                pedido.valor_total,
+                pedido.itens.count()
+            ])
+
+        return response
+
+    # Paginação
+    paginator = Paginator(pedidos, 20)  # 20 pedidos por página
+    page_number = request.GET.get('page')
+    pedidos_paginados = paginator.get_page(page_number)
+
+    return render(request, 'relatorio-pedidos.html', {
+        'form': form,
+        'pedidos': pedidos_paginados,
+    })

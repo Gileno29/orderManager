@@ -35,3 +35,42 @@ ItemPedidoFormSet = inlineformset_factory(
     extra=1,  # Número de formulários extras em branco
     can_delete=True,  # Permite excluir itens
 )
+
+
+
+class RelatorioPedidosForm(forms.Form):
+    data_inicial = forms.DateField(
+        label="Data Inicial",
+        widget=forms.DateInput(attrs={'type': 'date'}),
+        required=False
+    )
+    data_final = forms.DateField(
+        label="Data Final",
+        widget=forms.DateInput(attrs={'type': 'date'}),
+        required=False
+    )
+    status = forms.ChoiceField(
+        label="Status do Pedido",
+        choices=Pedido.STATUS_CHOICES,
+        required=False
+    )
+    cliente = forms.ModelChoiceField(
+        label="Cliente",
+        queryset=Cliente.objects.all(),
+        required=False
+    )
+    produto = forms.ModelChoiceField(
+        label="Produto",
+        queryset=Produto.objects.all(),
+        required=False
+    )
+    valor_minimo = forms.DecimalField(
+        label="Valor Mínimo",
+        min_value=0,
+        required=False
+    )
+    quantidade_itens = forms.IntegerField(
+        label="Quantidade Mínima de Itens",
+        min_value=1,
+        required=False
+    )

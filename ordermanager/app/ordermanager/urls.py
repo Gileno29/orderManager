@@ -43,4 +43,5 @@ urlpatterns = [
     path('excluir-pedido/<int:pedido_id>/', orderviews.excluir_pedido, name='excluir_pedido'),
     path('relatorios/', orderviews.relatorios, name='relatorios'),
     path('api/encontrar-vogal/', apiview.EncontrarVogalView.as_view(), name='encontrar_vogal'),
+    path('relatorio-pedidos/', orderviews.relatorio_pedidos, name='relatorio_pedidos')
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

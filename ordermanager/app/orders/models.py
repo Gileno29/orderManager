@@ -45,7 +45,7 @@ class ItemPedido(models.Model):
     pedido = models.ForeignKey('Pedido', on_delete=models.CASCADE, related_name='itens', verbose_name="Pedido")
 
     def __str__(self):
-        return f"{self.quantidade}x {self.produto.nome}"
+         return f"{self.quantidade}x {self.produto.nome if self.produto else 'Produto Removido'}"
 
     def preco_item(self):
         return Decimal(self.quantidade) * Decimal(self.produto.preco)
