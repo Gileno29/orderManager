@@ -2,12 +2,11 @@ from django.db import models
 from django.db.models import Sum
 from django.shortcuts import render, redirect
 from decimal import Decimal
+from .constants import STATUS_CHOICES
 # Create your models here.
 
 class Cliente(models.Model):
-    """
-    Model para representar um cliente.
-    """
+
     nome = models.CharField(max_length=100, verbose_name="Nome do Cliente")
     email = models.EmailField(blank=True, null=True, verbose_name="E-mail")
     telefone = models.CharField(max_length=15, blank=True, null=True, verbose_name="Telefone")
@@ -55,11 +54,6 @@ class ItemPedido(models.Model):
         verbose_name_plural = "Itens do Pedido"
 
 class Pedido(models.Model):
-    STATUS_CHOICES = [
-        ('em_andamento', 'Em andamento'),
-        ('finalizado', 'Finalizado'),
-        ('cancelado', 'Cancelado'),
-    ]
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, verbose_name="Cliente")
     data_pedido = models.DateTimeField(auto_now_add=True, verbose_name="Data do Pedido")
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='em_andamento',  null=True, blank=True,verbose_name="Status")
@@ -69,15 +63,14 @@ class Pedido(models.Model):
         return f"Pedido #{self.id} - {self.cliente.nome}"
 
     def preco_total(self):
-        # Soma o valor de todos os itens do pedido
         total = self.itens.aggregate(total=Sum(models.F('quantidade') * models.F('produto__preco')))['total']
         return Decimal(total) if total is not None else Decimal(0)
 
     def save(self, *args, **kwargs):
-        # Salva o pedido sem calcular o valor total
+
         super().save(*args, **kwargs)
 
     def atualizar_valor_total(self):
-        # Atualiza o valor total do pedido
+
         self.valor_total = self.preco_total()
         self.save(update_fields=['valor_total'])

@@ -1,6 +1,7 @@
 from django import forms 
 from .models import Cliente, Produto, ItemPedido, Pedido
 from django.forms import inlineformset_factory
+from .constants import STATUS_CHOICES
 
 class ClienteForm(forms.ModelForm):
     class Meta:
@@ -39,8 +40,7 @@ ItemPedidoFormSet = inlineformset_factory(
 
 
 class RelatorioPedidosForm(forms.Form):
-    STATUS_CHOICES = [('', 'Nenhum Filtro')] + list(Pedido.STATUS_CHOICES)  # Adiciona "Nenhum Filtro"
-
+    STATUS_CHOICES = [('', 'Nenhum Filtro')] + list(STATUS_CHOICES)  
     data_inicial = forms.DateField(
         label="Data Inicial",
         widget=forms.DateInput(attrs={'type': 'date'}),
@@ -53,7 +53,7 @@ class RelatorioPedidosForm(forms.Form):
     )
     status = forms.ChoiceField(
         label="Status do Pedido",
-        choices=STATUS_CHOICES,  # Usa as escolhas atualizadas
+        choices=STATUS_CHOICES,  
         required=False
     )
     cliente = forms.ModelChoiceField(
