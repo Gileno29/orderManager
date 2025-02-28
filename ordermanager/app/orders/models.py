@@ -40,7 +40,7 @@ class Produto(models.Model):
 
 
 class ItemPedido(models.Model):
-    produto = models.ForeignKey(Produto, on_delete=models.CASCADE, verbose_name="Produto")
+    produto = models.ForeignKey(Produto, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Produto")
     quantidade = models.PositiveIntegerField(default=1, verbose_name="Quantidade")
     pedido = models.ForeignKey('Pedido', on_delete=models.CASCADE, related_name='itens', verbose_name="Pedido")
 

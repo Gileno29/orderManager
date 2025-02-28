@@ -26,9 +26,9 @@ load_dotenv()
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'orders',
     'rest_framework',
+    'corsheaders',
 
 ]
 
@@ -53,7 +54,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
+
 
 ROOT_URLCONF = 'ordermanager.urls'
 
@@ -135,3 +138,7 @@ MEDIA_URL='/media/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+SECURE_SSL_REDIRECT = False  # True se estiver usando HTTPS
+SESSION_COOKIE_SECURE = False  # True se estiver usando HTTPS
+CSRF_COOKIE_SECURE = False  # True se estiver usando HTTPS
