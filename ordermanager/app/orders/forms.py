@@ -39,6 +39,8 @@ ItemPedidoFormSet = inlineformset_factory(
 
 
 class RelatorioPedidosForm(forms.Form):
+    STATUS_CHOICES = [('', 'Nenhum Filtro')] + list(Pedido.STATUS_CHOICES)  # Adiciona "Nenhum Filtro"
+
     data_inicial = forms.DateField(
         label="Data Inicial",
         widget=forms.DateInput(attrs={'type': 'date'}),
@@ -51,7 +53,7 @@ class RelatorioPedidosForm(forms.Form):
     )
     status = forms.ChoiceField(
         label="Status do Pedido",
-        choices=Pedido.STATUS_CHOICES,
+        choices=STATUS_CHOICES,  # Usa as escolhas atualizadas
         required=False
     )
     cliente = forms.ModelChoiceField(

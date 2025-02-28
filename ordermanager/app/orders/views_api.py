@@ -53,10 +53,9 @@ class EncontrarVogalView(APIView):
         return None  # Retorna None se nenhuma vogal atender às condições
 
     def post(self, request):
-        # Obtém a string da requisição
+    
         string = request.data.get('string', '')
 
-        # Verifica se a string foi fornecida
         if not string:
             return Response(
                 {"error": "A string não foi fornecida."},
@@ -70,9 +69,9 @@ class EncontrarVogalView(APIView):
         vogal = self.encontrar_vogal(string)
 
         # Calcula o tempo total
-        tempo_total = (time.time() - inicio) * 1000  # Converte para milissegundos
+        tempo_total = (time.time() - inicio) * 1000  
 
-        # Retorna o resultado
+       
         if vogal:
             return Response({
                 "string": string,

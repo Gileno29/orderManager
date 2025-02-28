@@ -268,7 +268,7 @@ def relatorio_pedidos(request):
     ordenacao = request.GET.get('ordenacao', 'data_pedido')
     pedidos = pedidos.order_by(ordenacao)
 
-    # Exportar para CSV
+   
     if 'exportar_csv' in request.GET:
         response = HttpResponse(content_type='text/csv')
         response['Content-Disposition'] = 'attachment; filename="relatorio_pedidos.csv"'
@@ -288,8 +288,8 @@ def relatorio_pedidos(request):
 
         return response
 
-    # Paginação
-    paginator = Paginator(pedidos, 20)  # 20 pedidos por página
+   
+    paginator = Paginator(pedidos, 20)  
     page_number = request.GET.get('page')
     pedidos_paginados = paginator.get_page(page_number)
 

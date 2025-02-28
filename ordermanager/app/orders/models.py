@@ -62,7 +62,7 @@ class Pedido(models.Model):
     ]
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, verbose_name="Cliente")
     data_pedido = models.DateTimeField(auto_now_add=True, verbose_name="Data do Pedido")
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='em_andamento', verbose_name="Status")
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='em_andamento',  null=True, blank=True,verbose_name="Status")
     valor_total = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name="Valor Total")
 
     def __str__(self):
