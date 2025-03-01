@@ -16,6 +16,17 @@
                            {{ message }}
                         </div>
                      {% endfor %}
+                     
+                     <script >
+                     window.setTimeout(function () {
+                        $(".alert").fadeTo(1000, 0, function () { // 1000ms = 1 segundo para desaparecer
+                            $(this).slideUp(1000, function () { // 1000ms = 1 segundo para reduzir a altura
+                                $(this).remove(); // Remove a mensagem do DOM
+                            });
+                        });
+                    }, 2000);
+                   
+                    </script>
                   </div>
                {% endif %}
                 <div class="row">

@@ -223,12 +223,16 @@ def relatorios(request):
     clientes_mais_ativos = Cliente.objects.annotate(
         total_pedidos=Count('pedido')   
     ).order_by('-total_pedidos')[:10] 
+    paginator = Paginator(pedidos_pendentes, 10)  
+    page_number = request.GET.get('page')  
+    pedidos_paginados = paginator.get_page(page_number) 
+    
 
     return render(request, 'relatorios.html', {
         'total_pedidos': total_pedidos,
         'valor_total_faturado': valor_total_faturado,
         'quantidade_total_produtos': quantidade_total_produtos,
-        'pedidos_pendentes': pedidos_pendentes,
+        'pedidos_pendentes': pedidos_paginados,
         'clientes_mais_ativos': clientes_mais_ativos,
     })
 

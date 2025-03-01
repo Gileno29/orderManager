@@ -21,26 +21,30 @@ footer {
     width: 100%;
     background-color: #f8f9fa;
     text-align: center;
-    padding: 10px 0;
+    padding: 3px 0;
     border-top: 1px solid #ddd;
     z-index: 1000;
 }
-
-
-
+  
 .alert {
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid transparent;
-    border-radius: 4px;
+    padding: 15px; /* Espaçamento interno */
+    margin: 10px auto; /* Centraliza horizontalmente e adiciona margem vertical */
+    border: 1px solid transparent; /* Borda transparente */
+    border-radius: 8px; /* Bordas mais arredondadas */
+    max-width: 600px; /* Largura máxima da mensagem */
+    width: 50%; /* Largura relativa à tela */
+    text-align: center; /* Centraliza o texto */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
 }
+
 .alert-success {
-    color: #3c763d;
-    background-color: #dff0d8;
-    border-color: #d6e9c6;
+    color: #3c763d; /* Cor do texto */
+    background-color: #dff0d8; /* Cor de fundo */
+    border-color: #d6e9c6; /* Cor da borda */
 }
+
 .alert-error {
-    color: #a94442;
-    background-color: #f2dede;
-    border-color: #ebccd1;
+    color: #a94442; /* Cor do texto */
+    background-color: #f2dede; /* Cor de fundo */
+    border-color: #ebccd1; /* Cor da borda */
 }

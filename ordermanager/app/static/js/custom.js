@@ -51,7 +51,8 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
     };
-});document.addEventListener('DOMContentLoaded', function () {
+});
+document.addEventListener('DOMContentLoaded', function () {
     // Adiciona o evento de change aos campos de produto existentes
     document.querySelectorAll('.product-select').forEach(select => {
         select.addEventListener('change', function () {
