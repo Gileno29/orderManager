@@ -39,7 +39,15 @@
                                             </ul>
                                         </td>
                                         <td>R$ {{ pedido.valor_total }}</td>
-                                        <td>{{ pedido.get_status_display }}</td>
+                                        <td>
+                                            <span class="badge 
+                                                {% if pedido.status == 'em_andamento' %}bg-warning
+                                                {% elif pedido.status == 'finalizado' %}bg-success
+                                                {% elif pedido.status == 'cancelado' %}bg-danger
+                                                {% endif %}">
+                                                {{ pedido.get_status_display }}
+                                            </span>
+                                        </td>
                                         <td>{{ pedido.data_pedido|date:"d/m/Y H:i" }}</td>
                                         <td>
                                             <a href="{% url 'editar_pedido' pedido.id %}" class="btn btn-sm btn-warning"> <i class="bi bi-pencil"></i></a>
