@@ -30,11 +30,57 @@
                   </div>
                {% endif %}
                 <div class="row">
-                     <div class="col-md-12 my-3">
-                        <a href="/" class="btn btn-success top-0 start-0 m-3">
-                           <i class="bi bi-house-door"></i> Home
-                        </a>
-                     </div>
+                      <!-- Menu Horizontal -->
+                     <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+                        <div class="container-fluid">
+                           <!-- Botão Home -->
+                           <a href="/" class="btn btn-success me-3">
+                              <i class="bi bi-house-door"></i> Home
+                           </a>
+
+                           <!-- Título do Sistema -->
+                           <a class="navbar-brand text-success" href="#">Order Manager V.1.0</a>
+
+                           <!-- Botão para menu responsivo -->
+                           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                              <span class="navbar-toggler-icon"></span>
+                           </button>
+
+                           <!-- Itens do Menu -->
+                           <div class="collapse navbar-collapse" id="navbarNav">
+                              <ul class="navbar-nav">
+                                    <!-- Relatórios -->
+                                    <li class="nav-item">
+                                       <a href="{% url 'relatorios' %}" class="btn btn-warning me-2">
+                                          <i class="bi bi-bar-chart me-2"></i> Relatórios
+                                       </a>
+                                    </li>
+
+                                    <!-- Relatórios Detalhamento Pedidos -->
+                                    <li class="nav-item">
+                                       <a href="{% url 'relatorio_pedidos' %}" class="btn btn-warning me-2">
+                                          <i class="bi bi-bar-chart me-2"></i> Relatórios Detalhamento Pedidos
+                                       </a>
+                                    </li>
+
+                                    <!-- Adicionar Produtos -->
+                                    <li class="nav-item">
+                                       <a href="{% url 'list_produtos' %}" class="btn btn-warning me-2">
+                                          <i class="bi bi-bar-chart me-2"></i> Adicionar Produtos
+                                       </a>
+                                    </li>
+
+                                    <!-- Adicionar Clientes -->
+                                    <li class="nav-item">
+                                       <a href="{% url 'list_clientes' %}" class="btn btn-warning">
+                                          <i class="bi bi-bar-chart me-2"></i> Adicionar Clientes
+                                       </a>
+                                    </li>
+                              </ul>
+                           </div>
+                        </div>
+                  </nav>
+
                   <div class="col-md-12">
 
                     {% block content %} 
