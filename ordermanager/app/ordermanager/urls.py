@@ -21,11 +21,11 @@ from orders import views_api as apiview
 from django.views.generic import RedirectView
 from django.conf.urls.static import static
 from django.conf import settings
+from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', orderviews.index, name='main_page' ),
-    path('buscar-produtos/', orderviews.BuscarProdutosView.as_view(), name='buscar_produtos'),
     path('cadastrar-cliente/', orderviews.cadastar_clientes_form, name='cadastrar_cliente'),
     path('cadastrar-cliente/submit/', orderviews.cadastrar_clientes_submit, name='cadastrar_submicao'),
     path('cadastrar-cliente/submit/<int:cliente_id>/', orderviews.cadastrar_clientes_submit, name='editar_submicao'),
@@ -43,5 +43,8 @@ urlpatterns = [
     path('excluir-pedido/<int:pedido_id>/', orderviews.excluir_pedido, name='excluir_pedido'),
     path('relatorios/', orderviews.relatorios, name='relatorios'),
     path('api/encontrar-vogal/', apiview.EncontrarVogalView.as_view(), name='encontrar_vogal'),
-    path('relatorio-pedidos/', orderviews.relatorio_pedidos, name='relatorio_pedidos')
+    path('relatorio-pedidos/', orderviews.relatorio_pedidos, name='relatorio_pedidos'),
+    path('login/', orderviews.CustomLoginView.as_view(), name='login'),
+    path('logout/', LogoutView.as_view(template_name='logged_out.html'), name='logout'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    

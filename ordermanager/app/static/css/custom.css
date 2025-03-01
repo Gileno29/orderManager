@@ -48,3 +48,12 @@ footer {
     background-color: #f2dede; /* Cor de fundo */
     border-color: #ebccd1; /* Cor da borda */
 }
+
+.login-container {
+    max-width: 400px;
+    margin: 100px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}

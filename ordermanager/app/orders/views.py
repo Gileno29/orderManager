@@ -5,24 +5,31 @@ from django.views import View
 from .models import Produto, Cliente, ItemPedido, Pedido
 from .forms import ClienteForm, ProdutoForm, ItemPedidoFormSet, PedidoForm, RelatorioPedidosForm
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 from django.db.models import Sum, Count
 from django.core.paginator import Paginator
 from django.utils import timezone
 from datetime import timedelta
 import csv
+from django.contrib.auth.views import LoginView, LogoutView
+from django.urls import reverse_lazy
 
-
+class CustomLoginView(LoginView):
+    template_name = 'login.html'  
+    redirect_authenticated_user = True  
+    success_url = reverse_lazy('main_page')  
 
 
 # Create your views here.
+@login_required
 def index(request):
     clientes = Cliente.objects.all()
     produtos = Produto.objects.all()
     itens_pedidos = ItemPedido.objects.all()
     ultimas_24h = timezone.now() - timedelta(hours=24)
-    pedidos = Pedido.objects.filter(data_pedido__gte=ultimas_24h)
+    pedidos = Pedido.objects.filter(data_pedido__gte=ultimas_24h).order_by('-data_pedido')
     
-    paginator = Paginator(pedidos, 8)  
+    paginator = Paginator(pedidos, 8)
     page_number = request.GET.get('page')  
     pedidos_paginados = paginator.get_page(page_number)  
     return render(request, 'main.html', {
@@ -33,13 +40,7 @@ def index(request):
     })
   
 
-class BuscarProdutosView(View):
-    def get(self, request, *args, **kwargs):
-        termo = request.GET.get('termo', '')  # Termo de busca
-        produtos = Produto.objects.filter(nome__icontains=termo).values('id', 'nome', 'preco')
-        return JsonResponse(list(produtos), safe=False)
-
-
+@login_required
 def cadastar_clientes_form(request):
     
     
@@ -47,6 +48,7 @@ def cadastar_clientes_form(request):
 
     return render(request, 'cad-clientes.html', {'form': form})
 
+@login_required
 def cadastrar_clientes_submit(request, cliente_id=None):
     if request.method == 'POST':
         if cliente_id:
@@ -59,7 +61,7 @@ def cadastrar_clientes_submit(request, cliente_id=None):
             return redirect('/list-clientes')
 
 
-
+@login_required
 def editar_cliente(request, cliente_id):
 
     cliente = Cliente.objects.get(id=cliente_id)
@@ -71,13 +73,14 @@ def editar_cliente(request, cliente_id):
 
     return render(request, 'editar-cliente.html', {'form': form, 'cliente_id': cliente.id})
 
-
+@login_required
 def excluir_cliente(request, cliente_id):
     cliente = Cliente.objects.get(id=cliente_id)
     if cliente:
         cliente.delete() 
     return redirect('list_produtos') 
 
+@login_required
 def cadastar_produtos_form(request):
 
     
@@ -85,7 +88,7 @@ def cadastar_produtos_form(request):
    
     return render(request, 'cad-produtos.html', {'form': form})
 
-
+@login_required
 def cadastrar_produtos_submit(request, produto_id=None):
     if request.method == 'POST':
         if produto_id:
@@ -97,24 +100,24 @@ def cadastrar_produtos_submit(request, produto_id=None):
         if form.is_valid():
             form.save()  
             return redirect('/list-produtos') 
-
+@login_required
 def listar_clientes(request):
     clientes = Cliente.objects.all()  
     return render(request, 'list-clientes.html', {'clientes': clientes})
 
-
+@login_required
 def listar_produtos(request):
     produtos = Produto.objects.all()  # Busca todos os clientes no banco de dados
     return render(request, 'list-produtos.html', {'produtos': produtos})
 
-
+@login_required
 def excluir_produto(request, produto_id):
     produto = get_object_or_404(Produto, id=produto_id)  
     produto.delete()  # Exclui o produto
     return redirect('list_produtos') 
 
 
-
+@login_required
 def editar_produto(request, produto_id):
 
     produto = Produto.objects.get(id=produto_id)
@@ -130,6 +133,7 @@ def editar_produto(request, produto_id):
 
 
 @csrf_exempt
+@login_required
 def salvar_pedido(request):
     if request.method == 'POST':
         cliente_id = request.POST.get('cliente_id')
@@ -179,7 +183,7 @@ def salvar_pedido(request):
     })
 
 
-
+@login_required
 def editar_pedido(request, pedido_id):
     pedido = get_object_or_404(Pedido, id=pedido_id)
 
@@ -207,12 +211,13 @@ def editar_pedido(request, pedido_id):
         'formset': formset,
     })
 
+@login_required
 def excluir_pedido(request, pedido_id):
     pedido = get_object_or_404(Pedido, id=pedido_id)  
     pedido.delete()  
     return redirect('main_page') 
 
-
+@login_required
 def relatorios(request):
     
     total_pedidos = Pedido.objects.count()
@@ -241,7 +246,7 @@ def relatorios(request):
 
 
 
-
+@login_required
 def relatorio_pedidos(request):
     form = RelatorioPedidosForm(request.GET or None)
     pedidos = Pedido.objects.all()

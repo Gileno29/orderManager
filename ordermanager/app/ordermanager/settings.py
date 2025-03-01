@@ -33,6 +33,10 @@ ALLOWED_HOSTS = ['*']
 
 # Application definition
 
+LOGIN_REDIRECT_URL = '/'  # Nome da URL para redirecionar após o login
+LOGIN_URL = 'login'
+
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
