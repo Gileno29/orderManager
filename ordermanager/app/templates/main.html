@@ -32,7 +32,7 @@
             <div id="orders-section" class="content-section">
                 <div class="card shadow-sm">
                     <div class="card-header d-flex justify-content-between align-items-center bg-white py-3">
-                        <h5 class="mb-0 text-primary">Pedidos Ultimas 24 horas</h5>
+                        <h5 class="mb-0 text-primary">Pedidos Últimas 24 horas</h5>
                         <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newOrderModal">
                             Novo Pedido
                         </a>
@@ -75,11 +75,47 @@
                                 </tbody>
                             </table>
                         </div>
+        
+                        <!-- Controles de paginação -->
+                        <nav aria-label="Paginação">
+                            <ul class="pagination justify-content-center">
+                                {% if pedidos.has_previous %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page=1" aria-label="Primeira">
+                                            <span aria-hidden="true">&laquo;&laquo;</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ pedidos.previous_page_number }}" aria-label="Anterior">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                {% endif %}
+        
+                                <li class="page-item disabled">
+                                    <span class="page-link">
+                                        Página {{ pedidos.number }} de {{ pedidos.paginator.num_pages }}
+                                    </span>
+                                </li>
+        
+                                {% if pedidos.has_next %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ pedidos.next_page_number }}" aria-label="Próxima">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ pedidos.paginator.num_pages }}" aria-label="Última">
+                                            <span aria-hidden="true">&raquo;&raquo;</span>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
                     </div>
                 </div>
             </div>
         </main>
-        
 
 <div class="modal fade" id="newOrderModal" tabindex="-1">
     <div class="modal-dialog">

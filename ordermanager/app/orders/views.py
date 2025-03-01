@@ -22,11 +22,14 @@ def index(request):
     ultimas_24h = timezone.now() - timedelta(hours=24)
     pedidos = Pedido.objects.filter(data_pedido__gte=ultimas_24h)
     
+    paginator = Paginator(pedidos, 8)  
+    page_number = request.GET.get('page')  
+    pedidos_paginados = paginator.get_page(page_number)  
     return render(request, 'main.html', {
         'clientes': clientes,
         'produtos': produtos,
         'itens_pedidos':itens_pedidos,
-        'pedidos': pedidos
+        'pedidos': pedidos_paginados
     })
   
 
