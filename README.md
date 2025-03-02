@@ -122,109 +122,155 @@ O sistema consite em um software que vai gerenciar pedidos, antes de poder criar
  <img src="https://github.com/Gileno29/orderManager/blob/main/ordermanager/doc/imagens/CadastroCliente.png"/>
 
 - Opção de cadastro de produtos: 
-   funcionalidade para cadastro simples de um produto. (Nome, descricao, valor)
- <img src="https://github.com/Gileno29/orderManager/blob/main/ordermanager/doc/imagens/tela_cadstro_produtos.png"/>
+  funcionalidade para cadastro simples de um produto. (Nome, descricao, valor)
+  <img src="https://github.com/Gileno29/orderManager/blob/main/ordermanager/doc/imagens/tela_cadstro_produtos.png"/>
 
-formlario de produtos
- <img src="https://github.com/Gileno29/orderManager/blob/main/ordermanager/doc/imagens/formulario_de_cadastro_de_produtos.png"/>
+ formlario de produtos
+  <img src="https://github.com/Gileno29/orderManager/blob/main/ordermanager/doc/imagens/formulario_de_cadastro_de_produtos.png"/>
  
 - Opção de cadastro de usuario:
+
   <img src="https://github.com/Gileno29/orderManager/blob/main/ordermanager/doc/imagens/cadstro_de_usuarios.png"/>
+
   formulario para cadastro de usuarios:
+
   <img src="https://github.com/Gileno29/orderManager/blob/main/ordermanager/doc/imagens/formulario_de_cadastro_de_usuarios.png"/>
   
 - Opção de relatorios detalhados:
-   Permite a extração de relatórios  em csv com filtros especificos.
- <img src="https://github.com/Gileno29/orderManager/blob/main/ordermanager/doc/imagens/relatorios_detalhamento.png"/>
+  Permite a extração de relatórios  em csv com filtros especificos.
 
- - Opção de relatorios de vendas:
-   permite o usuario visualizar dados gerais sobre as vendas.
-   <img src="https://github.com/Gileno29/orderManager/blob/main/ordermanager/doc/imagens/relatorio_vendas.png"/>
+<img src="https://github.com/Gileno29/orderManager/blob/main/ordermanager/doc/imagens/relatorios_detalhamento.png"/>
 
-o sistema incialmente começa sem a tabela destinada para os dados, quando enviado o arquivo para carregamento essa tabela vai ser criada e carregada com os dados, o sistema vai redirecionar para uma tela de loading, é necessário aguardar finalizar.
+- Opção de relatorios de vendas:
+  permite o usuario visualizar dados gerais sobre as vendas.
 
-O tempo de carregamento para os dados da base de exemplo completa está por volta dos 3.40 segundos.
-
-Dados tecnicos da máquina onde o teste foi executado:
-```
-  Procesador: i5 10° geracao
-  Memoria Ram: 16G
-  Sitema Operacional: Ubuntu 22.04 (WSL2)
-  Tempo de carregamento: 3.43s
-  Tipo de Disco: ssd
-
-```
+  <img src="https://github.com/Gileno29/orderManager/blob/main/ordermanager/doc/imagens/relatorio_vendas.png"/>
 
 
-Após isso é possivel visualizar os dados em formato json, através do botão de listar registros.
-
-Busca dos registros:
-
-<img src="https://github.com/Gileno29/file_loader/blob/main/doc/img/registros.png"/>
+o sistema vai abrir na tela inicial onde ficam os pedidos cadastrados na últimas 24 horas.
 
 
-
-Também é possivel acessar o banco de dados da aplicação para verificar os registros inseridos.
-
-Execute:
-
-```bash
-  docker container ls #veja o ID do container
-
-  
-  docker container exec -it < container_id > /bin/bash
-```
-Dentro do container log no database:
-
-```bash
-  psql -U uservendas -d venda
-```
-Verifique os registros:
-
-```sql
-  select * from vendas;
-```
 
 <div id='tabela'/>
 
 ## Estrutura do Database
 
-A tabela do banco de dados foi montada seguindo as especificações dos campos do arquivo da base, sendo adicionado dois campos extras para validações, o campo de *cpf_valido* e *cnpj_valido* para que pudessem ser utilizados em filtros para consumo outros serviços, além do ID criado automaticamente para referenciar cada registro.
+ Abaixo segue um resumo dos models atuais do sistema que geram o banco de dados.
 
 ```bash
-                                              Table "public.vendas"
-            Column           |       Type        | Collation | Nullable |              Default
-  ----------------------------+-------------------+-----------+----------+------------------------------------
-  id                         | integer           |           | not null | nextval('vendas_id_seq'::regclass)
-  cpf                        | character varying |           |          |
-  private                    | integer           |           |          |
-  incompleto                 | integer           |           |          |
-  data_ultima_compra         | date              |           |          |
-  ticket_medio               | numeric(10,2)     |           |          |
-  ticket_medio_ultima_compra | numeric(10,2)     |           |          |
-  loja_mais_frequente        | character varying |           |          |
-  loja_da_ultima_compra      | character varying |           |          |
-  cpf_valido                 | boolean           |           |          |
-  cnpj_valido                | boolean           |           |          |
-  Indexes:
-      "vendas_pkey" PRIMARY KEY, btree (id)
+  order=# \d
+                         List of relations
+ Schema |               Name                |   Type   |   Owner   
+--------+-----------------------------------+----------+-----------
+ public | auth_group                        | table    | userorder
+ public | auth_group_id_seq                 | sequence | userorder
+ public | auth_group_permissions            | table    | userorder
+ public | auth_group_permissions_id_seq     | sequence | userorder
+ public | auth_permission                   | table    | userorder
+ public | auth_permission_id_seq            | sequence | userorder
+ public | auth_user                         | table    | userorder
+ public | auth_user_groups                  | table    | userorder
+ public | auth_user_groups_id_seq           | sequence | userorder
+ public | auth_user_id_seq                  | sequence | userorder
+ public | auth_user_user_permissions        | table    | userorder
+ public | auth_user_user_permissions_id_seq | sequence | userorder
+ public | django_admin_log                  | table    | userorder
+ public | django_admin_log_id_seq           | sequence | userorder
+ public | django_content_type               | table    | userorder
+ public | django_content_type_id_seq        | sequence | userorder
+ public | django_migrations                 | table    | userorder
+ public | django_migrations_id_seq          | sequence | userorder
+ public | django_session                    | table    | userorder
+ public | orders_cliente                    | table    | userorder
+ public | orders_cliente_id_seq             | sequence | userorder
+ public | orders_itempedido                 | table    | userorder
+ public | orders_itempedido_id_seq          | sequence | userorder
+ public | orders_pedido                     | table    | userorder
+ public | orders_pedido_id_seq              | sequence | userorder
+ public | orders_produto                    | table    | userorder
+ public | orders_produto_id_seq             | sequence | userorde
 ```
 Classe Venda:
 
 ```py
-  class Venda(Base):
-      __tablename__ = 'vendas'
-      id = Column(Integer, primary_key=True)
-      cpf= Column(String)
-      private = Column(Integer)
-      incompleto = Column(Integer)
-      data_ultima_compra= Column(Date, nullable=True)
-      ticket_medio = Column(DECIMAL(10, 2))
-      ticket_medio_ultima_compra= Column(DECIMAL(10, 2))
-      loja_mais_frequente= Column(String)
-      loja_da_ultima_compra= Column(String)
-      cpf_valido= Column(Boolean, default=True)
-      cnpj_valido= Column(Boolean, default=True)
+
+from django.db import models
+from django.db.models import Sum
+from django.shortcuts import render, redirect
+from decimal import Decimal
+from .constants import STATUS_CHOICES
+# Create your models here.
+
+class Cliente(models.Model):
+
+    nome = models.CharField(max_length=100, verbose_name="Nome do Cliente")
+    email = models.EmailField(blank=True, null=True, verbose_name="E-mail")
+    telefone = models.CharField(max_length=15, blank=True, null=True, verbose_name="Telefone")
+    endereco = models.TextField(blank=True, null=True, verbose_name="Endereço")
+    cpfcnpj = models.CharField(max_length=20, blank=False, null=False, verbose_name="CPF/CNPJ")
+
+    def __str__(self):
+        return self.nome
+
+    class Meta:
+        verbose_name = "Cliente"
+        verbose_name_plural = "Clientes"
+
+
+
+
+class Produto(models.Model):
+    
+    nome = models.CharField(max_length=100, verbose_name="Nome do Produto")
+    descricao = models.TextField(blank=True, null=True, verbose_name="Descrição")
+    preco = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Preço Unitário")
+
+    def __str__(self):
+        return f"{self.nome} (R$ {self.preco})"
+
+    class Meta:
+        verbose_name = "Produto"
+        verbose_name_plural = "Produtos"
+
+
+
+class ItemPedido(models.Model):
+    produto = models.ForeignKey(Produto, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Produto")
+    quantidade = models.PositiveIntegerField(default=1, verbose_name="Quantidade")
+    pedido = models.ForeignKey('Pedido', on_delete=models.CASCADE, related_name='itens', verbose_name="Pedido")
+
+    def __str__(self):
+         return f"{self.quantidade} x {self.produto.nome if self.produto else 'Produto Removido'}"
+
+    def preco_item(self):
+        return Decimal(self.quantidade) * Decimal(self.produto.preco)
+
+    class Meta:
+        verbose_name = "Item do Pedido"
+        verbose_name_plural = "Itens do Pedido"
+
+class Pedido(models.Model):
+    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, verbose_name="Cliente")
+    data_pedido = models.DateTimeField(auto_now_add=True, verbose_name="Data do Pedido")
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='em_andamento',  null=True, blank=True,verbose_name="Status")
+    valor_total = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name="Valor Total")
+
+    def __str__(self):
+        return f"Pedido #{self.id} - {self.cliente.nome}"
+
+    def preco_total(self):
+        total = self.itens.aggregate(total=Sum(models.F('quantidade') * models.F('produto__preco')))['total']
+        return Decimal(total) if total is not None else Decimal(0)
+
+    def save(self, *args, **kwargs):
+
+        super().save(*args, **kwargs)
+
+    def atualizar_valor_total(self):
+
+        self.valor_total = self.preco_total()
+        self.save(update_fields=['valor_total'])
+
 ```
 
 Fazendo desta forma é possivel fazer o mapeamento para outros arquivos caso seja necessário carregar outras bases, bastaria apenas criar as classes equivalentes para mapeamento dos dados.
