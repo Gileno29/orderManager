@@ -48,6 +48,16 @@ USE_X_FORWARDED_HOST = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 
+# Tempo de inatividade em segundos (5 minutos = 300 segundos)
+SESSION_COOKIE_AGE = 300
+
+# Encerrar a sessão quando o navegador for fechado
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+# Renovar a sessão a cada requisição
+SESSION_SAVE_EVERY_REQUEST = True
+
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -70,6 +80,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'orders.middleware.SessionTimeoutMiddleware',
 ]
 
 
