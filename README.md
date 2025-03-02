@@ -118,10 +118,28 @@ O sistema consite em um software que vai gerenciar pedidos, antes de poder criar
   funcionalidade para cadastro simples de um cliente. (Nome, Telefone, descricao do endereco e cpf/cnpj)
  <img src="https://github.com/Gileno29/orderManager/blob/main/ordermanager/doc/imagens/cadastrar_clientes.png"/>
 
-- Opção de  listar registros: 
-   Essa opção vai listar os registros inseridos no banco de dados em formato json, caso não haja registros vai retornar um json com not found.
+ Formulario de Cadastro:
+ <img src="https://github.com/Gileno29/orderManager/blob/main/ordermanager/doc/imagens/CadastroCliente.png"/>
 
-- Opção de Upload: vai encaminhar o arquivo carregado para o backend realizar o processamento.
+- Opção de cadastro de produtos: 
+   funcionalidade para cadastro simples de um produto. (Nome, descricao, valor)
+ <img src="https://github.com/Gileno29/orderManager/blob/main/ordermanager/doc/imagens/tela_cadstro_produtos.png"/>
+
+formlario de produtos
+ <img src="https://github.com/Gileno29/orderManager/blob/main/ordermanager/doc/imagens/formulario_de_cadastro_de_produtos.png"/>
+ 
+- Opção de cadastro de usuario:
+  <img src="https://github.com/Gileno29/orderManager/blob/main/ordermanager/doc/imagens/cadstro_de_usuarios.png"/>
+  formulario para cadastro de usuarios:
+  <img src="https://github.com/Gileno29/orderManager/blob/main/ordermanager/doc/imagens/formulario_de_cadastro_de_usuarios.png"/>
+  
+- Opção de relatorios detalhados:
+   Permite a extração de relatórios  em csv com filtros especificos.
+ <img src="https://github.com/Gileno29/orderManager/blob/main/ordermanager/doc/imagens/relatorios_detalhamento.png"/>
+
+ - Opção de relatorios de vendas:
+   permite o usuario visualizar dados gerais sobre as vendas.
+   <img src="https://github.com/Gileno29/orderManager/blob/main/ordermanager/doc/imagens/relatorio_vendas.png"/>
 
 o sistema incialmente começa sem a tabela destinada para os dados, quando enviado o arquivo para carregamento essa tabela vai ser criada e carregada com os dados, o sistema vai redirecionar para uma tela de loading, é necessário aguardar finalizar.
 
