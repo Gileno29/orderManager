@@ -1,0 +1,34 @@
+name: Deploy Django App
+
+on:
+  push:
+    branches:
+      - main  
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
+
+      - name: Copiar arquivos para o servidor
+        run: |
+          rsync -avz --exclude 'venv' --exclude '__pycache__' --exclude '.git' \
+          -e "ssh -i ~/.ssh/id_rsa" . ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.PROJECT_PATH }}
+
+      - name: Executar Docker Compose no servidor
+        run: |
+          ssh -i ~/.ssh/id_rsa ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+            cd ${{ secrets.PROJECT_PATH }}/ordermanager
+            docker compose down
+            docker compose up -d --build
+          EOF
