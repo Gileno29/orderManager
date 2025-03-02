@@ -227,8 +227,8 @@ def excluir_pedido(request, pedido_id):
 def relatorios(request):
     
     total_pedidos = Pedido.objects.count()
-    valor_total_faturado = Pedido.objects.aggregate(total=Sum('valor_total'))['total'] or 0
-    quantidade_total_produtos = ItemPedido.objects.aggregate(total=Sum('quantidade'))['total'] or 0
+    valor_total_faturado = Pedido.objects.filter(status='finalizado').aggregate(total=Sum('valor_total'))['total'] or 0
+    quantidade_total_produtos = ItemPedido.objects.filter(pedido__status='finalizado').aggregate(total=Sum('quantidade'))['total'] or 0
 
     
     pedidos_pendentes = Pedido.objects.filter(status='em_andamento')
