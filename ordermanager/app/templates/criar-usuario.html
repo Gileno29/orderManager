@@ -7,13 +7,6 @@
                 <div class="card shadow">
                     <div class="card-body">
                         <h2 class="card-title text-center mb-4">Criar Usuário</h2>
-                        {% if messages %}
-                            {% for message in messages %}
-                                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
-                                    {{ message }}
-                                </div>
-                            {% endfor %}
-                        {% endif %}
                         <form method="post" action="{% url 'criar_usuario' %}">
                             {% csrf_token %}
                             <div class="mb-3">

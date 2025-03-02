@@ -334,6 +334,7 @@ def criar_usuario(request):
                 messages.success(request, 'Usuário criado com sucesso!')
                 return redirect('list_usuarios')  
         else:
+
             messages.error(request, 'As senhas não coincidem.')
     return render(request, 'criar-usuario.html')
 
