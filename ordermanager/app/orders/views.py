@@ -13,14 +13,19 @@ from datetime import timedelta
 import csv
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
+from django.contrib.auth.models import User
 
+
+
+
+# Create your views here.
 class CustomLoginView(LoginView):
     template_name = 'login.html'  
     redirect_authenticated_user = True  
     success_url = reverse_lazy('main_page')  
 
 
-# Create your views here.
+
 @csrf_exempt
 @login_required
 def index(request):
@@ -310,3 +315,60 @@ def relatorio_pedidos(request):
         'form': form,
         'pedidos': pedidos_paginados,
     })
+
+
+@login_required
+def criar_usuario(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        confirm_password = request.POST.get('confirm_password')
+
+        if password == confirm_password:
+            if User.objects.filter(username=username).exists():
+                messages.error(request, 'Nome de usuário já existe.')
+            else:
+                
+                User.objects.create_user(username=username, email=email, password=password)
+                messages.success(request, 'Usuário criado com sucesso!')
+                return redirect('list_usuarios')  
+        else:
+            messages.error(request, 'As senhas não coincidem.')
+    return render(request, 'criar-usuario.html')
+
+@login_required
+def listar_usuarios(request):
+    usuarios = User.objects.all()  
+    return render(request, 'list-usuarios.html', {'usuarios': usuarios})
+
+
+@csrf_exempt
+@login_required
+def editar_usuario(request, usuario_id):
+    usuario = get_object_or_404(User, id=usuario_id)  # Obtém o usuário ou retorna 404
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        confirm_password = request.POST.get('confirm_password')
+
+        if password == confirm_password:
+            usuario.username = username
+            usuario.email = email
+            if password:  
+                usuario.set_password(password)
+            usuario.save()
+            messages.success(request, 'Usuário atualizado com sucesso!')
+            return redirect('list_usuarios')
+        else:
+            messages.error(request, 'As senhas não coincidem.')
+    return render(request, 'editar-usuario.html', {'usuario': usuario})
+
+@login_required
+def deletar_usuario(request, usuario_id):
+    usuario = get_object_or_404(User, id=usuario_id) 
+    if request.method == 'POST':
+        usuario.delete()  
+        messages.success(request, 'Usuário deletado com sucesso!')
+    return redirect('list_usuarios')
