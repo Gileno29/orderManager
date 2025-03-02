@@ -112,10 +112,10 @@ O sistema consite em um software que vai gerenciar pedidos, antes de poder criar
 
 ### interface sistema
 
-<img src="https://github.com/Gileno29/file_loader/blob/main/doc/img/interface_sistema.png"/>
+<img src="https://github.com/Gileno29/orderManager/blob/developer/ordermanager/doc/imagens/tela_inicial.png"/>
 
-- Opção de reset:
-   Foi adicionado uma funcionalidade para o reset do database, caso seja nesssário, essa opção vai dropar o database e recriar  a tabela.
+- Opção de cadatro do cliente:
+  funcionalidade para cadastro simples de um cliente. (Nome, Telefone, descricao do endereco e cpf/cnpj)
 
 - Opção de  listar registros: 
    Essa opção vai listar os registros inseridos no banco de dados em formato json, caso não haja registros vai retornar um json com not found.

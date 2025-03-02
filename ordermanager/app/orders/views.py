@@ -84,7 +84,7 @@ def excluir_cliente(request, cliente_id):
     cliente = Cliente.objects.get(id=cliente_id)
     if cliente:
         cliente.delete() 
-    return redirect('list_produtos') 
+    return redirect('list_clientes') 
 
 @login_required
 def cadastar_produtos_form(request):
