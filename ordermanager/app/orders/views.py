@@ -21,6 +21,7 @@ class CustomLoginView(LoginView):
 
 
 # Create your views here.
+@csrf_exempt
 @login_required
 def index(request):
     clientes = Cliente.objects.all()
