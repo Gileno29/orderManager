@@ -112,10 +112,11 @@ O sistema consite em um software que vai gerenciar pedidos, antes de poder criar
 
 ### interface sistema
 
-<img src="https://github.com/Gileno29/orderManager/blob/developer/ordermanager/doc/imagens/tela_inicial.png"/>
+<img src="https://github.com/Gileno29/orderManager/blob/main/ordermanager/doc/imagens/Imagem_tela_inicial.png"/>
 
 - Opção de cadatro do cliente:
   funcionalidade para cadastro simples de um cliente. (Nome, Telefone, descricao do endereco e cpf/cnpj)
+ <img src="https://github.com/Gileno29/orderManager/blob/main/ordermanager/doc/imagens/cadastrar_clientes.png"/>
 
 - Opção de  listar registros: 
    Essa opção vai listar os registros inseridos no banco de dados em formato json, caso não haja registros vai retornar um json com not found.
