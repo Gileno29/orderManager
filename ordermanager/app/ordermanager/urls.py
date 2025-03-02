@@ -46,5 +46,9 @@ urlpatterns = [
     path('relatorio-pedidos/', orderviews.relatorio_pedidos, name='relatorio_pedidos'),
     path('login/', orderviews.CustomLoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(template_name='logged_out.html'), name='logout'),
+    path('criar-usuario/', orderviews.criar_usuario, name='criar_usuario'),
+    path('usuarios/',orderviews.listar_usuarios, name='list_usuarios'),
+    path('usuarios/editar/<int:usuario_id>/', orderviews.editar_usuario, name='editar_usuario'),
+    path('usuarios/deletar/<int:usuario_id>/', orderviews.deletar_usuario, name='deletar_usuario'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     

@@ -29,6 +29,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+                
 
 
 # Application definition
@@ -36,8 +37,12 @@ ALLOWED_HOSTS = ['*']
 LOGIN_REDIRECT_URL = '/'  # Nome da URL para redirecionar após o login
 LOGIN_URL = 'login'
 
-CSRF_TRUSTED_ORIGINS = ["*"]
-
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:8080',
+                  'http://localhost:8080',
+                  'https://ordermanager.g-dev.online',
+                  'http://ordermanager.g-dev.online',
+                  'http://127.0.01:8001',
+                  'http://localhost:8001']
 
 USE_X_FORWARDED_HOST = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')

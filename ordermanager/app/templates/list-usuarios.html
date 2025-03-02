@@ -1,0 +1,46 @@
+{% extends "model-page.html" %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h2 class="mb-4">Lista de Usuários</h2>
+
+        <!-- Botão para criar um novo usuário -->
+        <a href="{% url 'criar_usuario' %}" class="btn btn-success mb-3">
+            <i class="bi bi-person-plus me-2"></i> Criar Usuário
+        </a>
+
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome de Usuário</th>
+                    <th>Email</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for usuario in usuarios %}
+                    <tr>
+                        <td>{{ usuario.id }}</td>
+                        <td>{{ usuario.username }}</td>
+                        <td>{{ usuario.email }}</td>
+                        <td>
+                            <!-- Botão de editar -->
+                            <a href="{% url 'editar_usuario' usuario.id %}" class="btn btn-sm btn-warning me-2">
+                                <i class="bi bi-pencil"></i> Editar
+                            </a>
+
+                            <!-- Botão de deletar -->
+                            <form action="{% url 'deletar_usuario' usuario.id %}" method="post" style="display: inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Tem certeza que deseja deletar este usuário?');">
+                                    <i class="bi bi-trash"></i> Deletar
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
