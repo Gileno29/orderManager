@@ -50,5 +50,7 @@ urlpatterns = [
     path('usuarios/',orderviews.listar_usuarios, name='list_usuarios'),
     path('usuarios/editar/<int:usuario_id>/', orderviews.editar_usuario, name='editar_usuario'),
     path('usuarios/deletar/<int:usuario_id>/', orderviews.deletar_usuario, name='deletar_usuario'),
+    path('exportar-pedidos-pendentes-csv/', orderviews.exportar_pedidos_pendentes_csv, name='exportar_pedidos_pendentes_csv'),
+    path('exportar-clientes-ativos-csv/', orderviews.exportar_clientes_ativos_csv, name='exportar_clientes_ativos_csv'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     

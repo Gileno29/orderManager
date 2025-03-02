@@ -227,8 +227,8 @@ def excluir_pedido(request, pedido_id):
 def relatorios(request):
     
     total_pedidos = Pedido.objects.count()
-    valor_total_faturado = Pedido.objects.aggregate(total=Sum('valor_total'))['total'] or 0
-    quantidade_total_produtos = ItemPedido.objects.aggregate(total=Sum('quantidade'))['total'] or 0
+    valor_total_faturado = Pedido.objects.filter(status='finalizado').aggregate(total=Sum('valor_total'))['total'] or 0
+    quantidade_total_produtos = ItemPedido.objects.filter(pedido__status='finalizado').aggregate(total=Sum('quantidade'))['total'] or 0
 
     
     pedidos_pendentes = Pedido.objects.filter(status='em_andamento')
@@ -334,6 +334,7 @@ def criar_usuario(request):
                 messages.success(request, 'Usuário criado com sucesso!')
                 return redirect('list_usuarios')  
         else:
+
             messages.error(request, 'As senhas não coincidem.')
     return render(request, 'criar-usuario.html')
 
@@ -372,3 +373,48 @@ def deletar_usuario(request, usuario_id):
         usuario.delete()  
         messages.success(request, 'Usuário deletado com sucesso!')
     return redirect('list_usuarios')
+
+
+def exportar_pedidos_pendentes_csv(request):
+    # Filtra os pedidos pendentes
+    pedidos_pendentes = Pedido.objects.filter(status='em_andamento')
+
+    # Cria a resposta HTTP com o tipo de conteúdo CSV
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="pedidos_pendentes.csv"'
+
+    # Cria o escritor CSV
+    writer = csv.writer(response)
+    writer.writerow(['ID', 'Cliente', 'Valor Total', 'Data do Pedido'])  # Cabeçalho
+
+    # Escreve os dados dos pedidos
+    for pedido in pedidos_pendentes:
+        writer.writerow([
+            pedido.id,
+            pedido.cliente.nome,
+            pedido.valor_total,
+            pedido.data_pedido.strftime('%d/%m/%Y %H:%M'),
+        ])
+
+    return response
+
+def exportar_clientes_ativos_csv(request):
+    
+    clientes_mais_ativos = Cliente.objects.annotate(total_pedidos=Count('pedido')).order_by('-total_pedidos')
+
+ 
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="clientes_mais_ativos.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['Cliente', 'Total de Pedidos', 'cpfcnpj'])  
+
+    
+    for cliente in clientes_mais_ativos:
+        writer.writerow([
+            cliente.nome,
+            cliente.total_pedidos,
+            cliente.cpfcnpj
+        ])
+
+    return response

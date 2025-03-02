@@ -1,8 +1,8 @@
 {% extends "model-page.html" %}
 {% block content %}
 
-<div class="container mt-2">
-    <h2 class="mb-4 text-primary">Relatório de Pedidos</h2>
+<div class="container mt-5">
+    <h2 class="mb-4 text-success">Relatório de Pedidos</h2>
 
     <!-- Formulário de Filtros -->
     <div class="card shadow-sm mb-4">
@@ -43,7 +43,7 @@
                         {{ form.quantidade_itens }}
                     </div>
                     <div class="col-md-2 mt-4">
-                        <button type="submit" class="btn btn-primary w-100">
+                        <button type="submit" class="btn btn-info w-100">
                             <i class="fas fa-filter"></i> Filtrar
                         </button>
                     </div>
@@ -53,7 +53,7 @@
                         </button>
                     </div>
                     <div class="col-md-2 mt-4">
-                        <a href="{% url 'relatorio_pedidos' %}" class="btn btn-secondary w-100">
+                        <a href="{% url 'relatorio_pedidos' %}" class="btn btn-danger w-100">
                             <i class="fas fa-times"></i> Limpar Filtros
                         </a>
                     </div>
@@ -72,12 +72,12 @@
                 <table class="table table-hover table-striped">
                     <thead class="table-light">
                         <tr>
-                            <th><a href="?ordenacao=id" class="text-decoration-none">ID <i class="fas fa-sort"></i></a></th>
-                            <th><a href="?ordenacao=cliente__nome" class="text-decoration-none">Cliente <i class="fas fa-sort"></i></a></th>
-                            <th><a href="?ordenacao=data_pedido" class="text-decoration-none">Data <i class="fas fa-sort"></i></a></th>
-                            <th><a href="?ordenacao=status" class="text-decoration-none">Status <i class="fas fa-sort"></i></a></th>
-                            <th><a href="?ordenacao=valor_total" class="text-decoration-none">Valor Total <i class="fas fa-sort"></i></a></th>
-                            <th><a href="?ordenacao=itens__count" class="text-decoration-none">Quantidade de Itens <i class="fas fa-sort"></i></a></th>
+                            <th><a href="?ordenacao=id" class="text-decoration-none text-info">ID <i class="fas fa-sort"></i></a></th>
+                            <th><a href="?ordenacao=cliente__nome" class="text-decoration-none text-info">Cliente <i class="fas fa-sort"></i></a></th>
+                            <th><a href="?ordenacao=data_pedido" class="text-decoration-none text-info">Data <i class="fas fa-sort"></i></a></th>
+                            <th><a href="?ordenacao=status" class="text-decoration-none text-info">Status <i class="fas fa-sort"></i></a></th>
+                            <th><a href="?ordenacao=valor_total" class="text-decoration-none text-info">Valor Total <i class="fas fa-sort"></i></a></th>
+                            <th><a href="?ordenacao=itens__count" class="text-decoration-none text-info">Quantidade de Itens <i class="fas fa-sort"></i></a></th>
                         </tr>
                     </thead>
                     <tbody>
