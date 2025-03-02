@@ -2,12 +2,12 @@
 
 {% block content %}
 <div class="container mt-2">
-    <h2>Relatórios de Vendas</h2>
+    <h2 class="text-success mt-5">Relatórios de Vendas</h2>
 
     <!-- Resumo das Vendas -->
     <div class="card shadow-sm mb-4">
         <div class="card-header bg-white">
-            <h5 class="mb-0 text-primary">Resumo das Vendas</h5>
+            <h5 class="mb-0 text-info">Resumo das Vendas</h5>
         </div>
         <div class="card-body">
             <div class="row">
@@ -42,7 +42,7 @@
     <!-- Pedidos Pendentes -->
     <div class="card shadow-sm mb-4">
         <div class="card-header bg-white d-flex justify-content-between align-items-center">
-            <h5 class="mb-0 text-primary">Pedidos Pendentes</h5>
+            <h5 class="mb-0 text-info">Pedidos Pendentes</h5>
             <a href="{% url 'exportar_pedidos_pendentes_csv' %}" class="btn btn-success btn-sm">
                 <i class="fas fa-file-csv me-2"></i> Exportar CSV
             </a>
@@ -121,7 +121,7 @@
     <!-- Clientes Mais Ativos -->
     <div class="card shadow-sm">
         <div class="card-header bg-white d-flex justify-content-between align-items-center">
-            <h5 class="mb-0 text-primary">Clientes Mais Ativos</h5>
+            <h5 class="mb-0 text-info">Clientes Mais Ativos</h5>
             <a href="{% url 'exportar_clientes_ativos_csv' %}" class="btn btn-success btn-sm">
                 <i class="fas fa-file-csv me-2"></i> Exportar CSV
             </a>
