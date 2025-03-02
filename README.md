@@ -346,30 +346,25 @@ A infraestrutura para deploy consiste em 3 partes:
 - Banco de dados: container à parte com o database do sistema
 - Proxy Reverso: container com o serviço do NGINX que vai ser responsável por receber as requisições e encaminhar ao serviço
 
-Diagrama da Estrutura::
-  
-  <div yle="display: flex">
-    <img src=https://github.com/Gileno29/file_loader/blob/main/doc/img/diagrama_estrutural.png/>
-  </div>
+
 
 ### Docker file
 
 ```sh
-  FROM python:3.9-slim
+FROM python:3.12-slim
 
-  WORKDIR /app
+WORKDIR /app
+RUN pip install --upgrade pip
 
-  COPY requirements.txt requirements.txt
-  RUN pip install -r requirements.txt
-
-
-  COPY . .
+COPY requirements.txt requirements.txt
+RUN pip install -r requirements.txt
 
 
-  EXPOSE 5000
+COPY ./app .
+COPY ./entrypoint.sh /
 
+ENTRYPOINT ["sh", "/entrypoint.sh"]
 
-  CMD ["gunicorn","--timeout" ,"800", "-w", "4", "-b", "0.0.0.0:5000", "wsgi:app"]
 
 
 ```
@@ -390,46 +385,56 @@ O Dockerfile consiste em uma imagem criada a partir da imagem python:3.9-slim. E
 ```yml
   version: '3.8'
 
-  services:
-    web:
-      build: .
-      ports:
-        - "5000:5000"
-      depends_on:
-        - db
-      networks:
-        - webnet
-        - database
+services:
+  web:
+    volumes:
+      - static:/app/static
+    build:
+      context: .
+    ports:
+      - "8001:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - database
+      - webnet
 
-    db:
-      image: postgres:13
-      command: -c 'max_connections=5000'
-      environment:
-        POSTGRES_USER: uservendas
-        POSTGRES_PASSWORD: passvendas
-        POSTGRES_DB: venda
-      volumes:
-        - postgres_data:/var/lib/postgresql/data
-      networks:
-        - database
-    nginx:
-      image: nginx:latest
-      ports:
-        - "80:80"
-      depends_on:
-        - web
-      volumes:
-        - ./nginx.conf:/etc/nginx/nginx.conf
-      networks:
-        - webnet
+  db:
+    image: postgres:13
+    command: -c 'max_connections=5000'
+    env_file: .env
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - database
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$POSTGRES_USER\" -d \"$POSTGRES_DB\""]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+  nginx:
+    build: ./nginx
+    volumes:
+      - static:/static
+    ports:
+      - "8080:80"
+    depends_on:
+      - web
+    networks:
+      - webnet
 
-  volumes:
-    postgres_data:
+volumes:
+  postgres_data:
+  static:
 
-  networks:
-    webnet:
-    database:
-
+networks:
+  webnet:
+  database:
   ```
 O docker-compose vai definir 3 serviços em sua estrutura, web(aplicacao) db(database) e nginx(proxy).
 Os serviço web está tanto na rede do database quando na do proxy devido a necessidade de comunicação com ambos os serviços, enquando o proxy e o database encontran-se em suas respectivas redes apenas.
@@ -440,43 +445,33 @@ Os serviço web está tanto na rede do database quando na do proxy devido a nece
       worker_connections 1024;
   }
 
-  http {
-      upstream web {
-          server web:5000;
-      }
+ 
 
-      server {
-          listen 80;
+upstream web {
+	server web:8000;
+}
 
-          location / {
-              proxy_pass http://web;
-              proxy_set_header Host $host;
-              proxy_set_header X-Real-IP $remote_addr;
-              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-              proxy_set_header X-Forwarded-Proto $scheme;
-              proxy_connect_timeout 3600s;
-              proxy_send_timeout 3600s;
-              proxy_read_timeout 3600s;
-              send_timeout 3600s;
-          }
+	server {
+		listen 80;
 
-          # Ajuste para tamanhos de upload
-          client_max_body_size 16M;
-      }
-  }
+		location / {
+			proxy_pass http://web;
+			proxy_set_header Host $host;
+			proxy_set_header X-Real-IP $remote_addr;
+			proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+			proxy_set_header X-Forwarded-Proto $scheme;
+			proxy_connect_timeout 3600s;
+			proxy_send_timeout 3600s;
+			proxy_read_timeout 3600s;
+			send_timeout 3600s;
+		}
+
+		location /static/ {
+			
+			alias /static/;  #FUNCIONA
+		}
+		client_max_body_size 16M;
+	}
+
 ```
-O arquvo de configuração do NGINX define uma configuração de proxy simples, o timeout pode ser ajustado para menos, dependendo da situação, caso o arquivo enviado seja muito grande e demore a carregar demais a aplicação pode dar timeout.
-
-## Testes
-
-Foram implementados tests para validacao de funcionalidades do sistema, eles se encontram na raiz do projeto dentro do diretorio ``tests``:
-
-```sh
-  tests/
-  ├── test_vendas.py
-  └── test_views.py
-```
-Para execução dos testes do projeto vá até a raiz e execute: 
-```python3 -m unittest discover -s tests```
-
-A arquivo test_vendas.py possui os testes da classe Vendas do modulo etl, já o arquivo test_views.py executa alguns testes basicos nas rotas do sistema que se encontram no arquivo main.py.
+O arquvo de configuração do NGINX define uma configuração de proxy simples, o timeout pode ser ajustado para menos, dependendo da situação.
