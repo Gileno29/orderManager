@@ -127,6 +127,7 @@ O sistema consite em um software que vai gerenciar pedidos, antes de poder criar
 
  formlario de produtos
   <img src="https://github.com/Gileno29/orderManager/blob/main/ordermanager/doc/imagens/formulario_de_cadastro_de_produtos.png"/>
+
  
 - Opção de cadastro de usuario:
 
@@ -135,7 +136,7 @@ O sistema consite em um software que vai gerenciar pedidos, antes de poder criar
   formulario para cadastro de usuarios:
 
   <img src="https://github.com/Gileno29/orderManager/blob/main/ordermanager/doc/imagens/formulario_de_cadastro_de_usuarios.png"/>
-  
+
 - Opção de relatorios detalhados:
   Permite a extração de relatórios  em csv com filtros especificos.
 
@@ -368,7 +369,7 @@ ENTRYPOINT ["sh", "/entrypoint.sh"]
 
 
 ```
-O Dockerfile consiste em uma imagem criada a partir da imagem python:3.9-slim. Ele vai:
+O Dockerfile consiste em uma imagem criada a partir da imagem python:3.8-slim. Ele vai:
 
 - criar o workdir da aplicação
 - enviar o arquivo de requirements e instalar os mesmos
@@ -475,3 +476,13 @@ upstream web {
 
 ```
 O arquvo de configuração do NGINX define uma configuração de proxy simples, o timeout pode ser ajustado para menos, dependendo da situação.
+
+## API
+Foi desenvolvido um  end point de uma API com unico propósito de recer uma string e retornar a primeria vogal única após uma consoante que é prescedida por uma vogal. O end point precisa ser acessado utilizando o dominio da aplicação no end point /API e a requisição precisa ser do tipo POST.
+
+Exemplo com curl:
+
+```sh
+	curl -X POST https://ordermanager.g-dev.online/api/encontrar-vogal/ -H "Content-Type: application/json" -d '{"string": "aAbBABacafe"}'
+```
+
