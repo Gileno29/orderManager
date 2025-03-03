@@ -113,13 +113,13 @@ def listar_clientes(request):
 
 @login_required
 def listar_produtos(request):
-    produtos = Produto.objects.all()  # Busca todos os clientes no banco de dados
+    produtos = Produto.objects.all() 
     return render(request, 'list-produtos.html', {'produtos': produtos})
 
 @login_required
 def excluir_produto(request, produto_id):
     produto = get_object_or_404(Produto, id=produto_id)  
-    produto.delete()  # Exclui o produto
+    produto.delete() 
     return redirect('list_produtos') 
 
 

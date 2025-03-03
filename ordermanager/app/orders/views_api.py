@@ -14,7 +14,6 @@ class EncontrarVogalView(APIView):
         vogais = "aeiouAEIOU"
         consoantes = "bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ"
         
-        # Variáveis para rastrear o estado
         vogais_vistas = set()  # Conjunto de vogais já vistas
         vogais_unicas = set()  # Conjunto de vogais únicas
         consoante_anterior = False  # Flag para indicar se o caractere anterior foi uma consoante
@@ -32,7 +31,7 @@ class EncontrarVogalView(APIView):
                     vogais_vistas.add(char)
                     vogais_unicas.add(char)
                 
-                # Verifica se a vogal atende às condições
+            
                 if consoante_anterior and vogal_antecessora and char in vogais_unicas:
                     return char  # Retorna a vogal que atende às condições
                 
@@ -41,12 +40,12 @@ class EncontrarVogalView(APIView):
                 vogal_antecessora = False
 
             elif char in consoantes:
-                # Verifica se o caractere anterior foi uma vogal
+                
                 if len(vogais_vistas) > 0:
                     vogal_antecessora = True
                 consoante_anterior = True
             else:
-                # Reseta as flags para caracteres que não são vogais nem consoantes
+                
                 consoante_anterior = False
                 vogal_antecessora = False
 
@@ -62,13 +61,12 @@ class EncontrarVogalView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        # Inicia o cronômetro
+        
         inicio = time.time()
 
-        # Encontra a vogal
+
         vogal = self.encontrar_vogal(string)
 
-        # Calcula o tempo total
         tempo_total = (time.time() - inicio) * 1000  
 
        

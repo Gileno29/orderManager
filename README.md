@@ -484,7 +484,7 @@ O arquivo de configuração do NGINX define uma configuração de proxy simples.
 aqui também: Foi desenvolvido um  end point de uma API com unico propósito de recer uma string e retornar a primeria vogal única após uma consoante que é prescedida por uma vogal. A requisição é do tipo POST
 
 Exemplo com curl:
-
+  
 
 ```sh
 	curl -X POST http://localhost:8080/api/encontrar-vogal/ -H "Content-Type: application/json" -d '{"string": "outraStringDeTeste"}'

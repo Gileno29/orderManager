@@ -103,63 +103,64 @@
     </main>
 
     <div class="modal fade" id="newOrderModal" tabindex="-1">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg"> 
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header bg-info text-white"> 
                     <h5 class="modal-title">Novo Pedido</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button> 
                 </div>
                 <div class="modal-body">
                     <form id="newOrderForm" action="{% url 'salvar_pedido' %}" method="post">
                         <!-- Dropdown para Cliente -->
-                        <div class="mb-3">
-                            <label for="customerSelect" class="form-label">Cliente</label>
-                            <select class="form-select" id="customerSelect" name="cliente_id" required>
+                        <div class="mb-4">
+                            <label for="customerSelect" class="form-label fw-bold">Cliente</label> 
+                            <select class="form-select shadow-sm" id="customerSelect" name="cliente_id" required> 
                                 <option value="">Selecione um cliente</option>
                                 {% for cliente in clientes %}
                                     <option value="{{ cliente.id }}">{{ cliente.nome }} - {{ cliente.cpfcnpj }}</option>
                                 {% endfor %}
                             </select>
                         </div>
-
+    
                         <!-- Container para Produtos -->
                         <div id="products-container">
-                            <div class="product-entry mb-3">
-                                <h6>Produto 1</h6>
-                                <div class="row">
-                                    <div class="col">
+                            <div class="product-entry mb-4 p-3 border rounded shadow-sm"> 
+                                <h6 class="fw-bold mb-3">Produto 1</h6> 
+                                <div class="row g-3"> 
+                                    <div class="col-md-6">
                                         <label class="form-label">Produto</label>
-                                        <select class="form-select product-select" name="produtos[]" required>
+                                        <select class="form-select product-select shadow-sm" name="produtos[]" required>
                                             <option value="">Selecione um produto</option>
                                             {% for produto in produtos %}
                                                 <option value="{{ produto.id }}" data-price="{{ produto.preco }}">
-                                                    {{ produto.nome }} - {{ produto.preco }}
+                                                    {{ produto.nome }} - R$ {{ produto.preco|floatformat:2 }}
                                                 </option>
                                             {% endfor %}
                                         </select>
                                     </div>
-                                    <div class="col">
+                                    <div class="col-md-6">
                                         <label class="form-label">Quantidade</label>
-                                        <input type="number" class="form-control product-quantity" name="quantidades[]" min="1" required>
+                                        <input type="number" class="form-control product-quantity shadow-sm" name="quantidades[]" min="1" required>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Botão para Adicionar Mais Produtos -->
-                        <button type="button" class="btn btn-secondary mb-3" onclick="addProductField()">
-                            Adicionar Produto
+    
+                       
+                        <button type="button" class="btn btn-outline-primary w-100 mb-3" onclick="addProductField()">
+                            <i class="fas fa-plus me-2"></i>Adicionar Produto 
                         </button>
+    
+                       
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-primary">Salvar</button>
-                        </div>
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Salvar Pedido</button> 
                     </form>
                 </div>
-                
             </div>
         </div>
     </div>
+    
 </div>
 
 {% endblock %}
