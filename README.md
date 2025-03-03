@@ -1,5 +1,6 @@
 # Order Manager
-Esse projeto tem como objetivo desenvolver um sistema simples que permite gerir pedidos de forma generica assim como, alem disso também disponibiliza uma API para identificar a vogal em uma string seguindo parãmetros especificos
+
+Esse projeto tem como objetivo desenvolver um sistema simples que permite gerenciar pedidos de forma genérica, além de disponibilizar uma API para identificar a vogal em uma string seguindo parâmetros específicos.
 
 ## Tabela de Conteúdos
 
@@ -7,56 +8,51 @@ Esse projeto tem como objetivo desenvolver um sistema simples que permite gerir 
 - [Tecnologias](#tecnologias)
 - [Requisitos](#requisitos)
 - [Rodando a Aplicação](#uso)
-- [Estrutura Banco dados](#tabela)
+- [Estrutura do Banco de Dados](#tabela)
 - [Estrutura do Projeto](#estrutura)
 - [Infraestrutura](#infraestrutura)
 
-
-
 <div id='sobre'/>
 
- ## Sobre
+## Sobre
 
-Esse software foi desenvolvido visando poder realizar as tarefas simples de gerar pedidos atualizar esses pedidos e realizar o cadastro e remoção dos clientes e produtos que serão utilizados nos pedidos.
+Esse software foi desenvolvido visando realizar tarefas simples como gerar pedidos, atualizar esses pedidos, e realizar o cadastro e remoção dos clientes e produtos que serão utilizados nos pedidos.
 
 <div id='tecnologias'/>
 
 ## Tecnologias
+
 <div style="display: flex">
 
- <img img align="center" alt="Django-Rest" height="50" width="100" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/djangorest/djangorest-original.svg" />
+ <img align="center" alt="Django-Rest" height="50" width="100" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/djangorest/djangorest-original.svg" />
 
- <img align="center" alt="Python" height="50" width="100"  width="80" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/django/django-plain.svg" />
- <img  align="center" alt="Docker" height="50" width="100" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original-wordmark.svg" />
+ <img align="center" alt="Python" height="50" width="100" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/django/django-plain.svg" />
+ <img align="center" alt="Docker" height="50" width="100" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original-wordmark.svg" />
  <img align="center" alt="PostgreSQL" height="50" width="100" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original-wordmark.svg" />
  <img align="center" alt="HTML" height="50" width="100" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original-wordmark.svg" />
  <img align="center" alt="CSS" height="50" width="100" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg" />
- <img  align="center" alt="Javascript" height="50" width="100" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg" />
+ <img align="center" alt="Javascript" height="50" width="100" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg" />
  <img align="center" alt="Actions" height="50" width="100" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/githubactions/githubactions-original.svg"/>
- <img  align="center" alt="bootstrap" height="50" width="100" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/bootstrap/bootstrap-original.svg" />
- <img  align="center" alt="nginx" height="50" width="100" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nginx/nginx-original.svg" />
- <img  align="center" alt="nginx" height="50" width="100" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/ssh/ssh-original-wordmark.svg" />
+ <img align="center" alt="bootstrap" height="50" width="100" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/bootstrap/bootstrap-original.svg" />
+ <img align="center" alt="nginx" height="50" width="100" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nginx/nginx-original.svg" />
+ <img align="center" alt="nginx" height="50" width="100" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/ssh/ssh-original-wordmark.svg" />
  <img align="center" alt="nginx" height="50" width="100" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/ubuntu/ubuntu-original.svg" />
-          
 
-
-          
-          
-          
 </div>
 
-
 <div id='requisitos'/>
- 
+
 ## Requisitos
+
 <ul>
   <li>Git</li>
-  <li>Deve possuir o <a href="https://docs.docker.com/engine/install/">Docker</a> e também o <a href="https://docs.docker.com/compose/install/">Docker-compose</a> instalados em sua máquina.
+  <li>Deve possuir o <a href="https://docs.docker.com/engine/install/">Docker</a> e também o <a href="https://docs.docker.com/compose/install/">Docker-compose</a> instalados em sua máquina.</li>
 </ul>
 
 <div id='uso'/>
 
 ## Rodando a Aplicação
+
 Instruções para iniciar a aplicação.
 
 ```sh
@@ -64,11 +60,11 @@ Instruções para iniciar a aplicação.
 git clone https://github.com/Gileno29/orderManager.git
 
 # Navegue até o diretório do projeto
-cd ordermanager 
+cd ordermanager
 ```
-vai ser preciso criar dois arquivos de váriaveis ".env" um na raiz do projeto onde encontra-se o docker compose e outro dentro de ```app/ordermanager```
+Será necessário criar dois arquivos de variáveis ".env": um na raiz do projeto, onde encontra-se o docker-compose, e outro dentro de ```app/ordermanager```.
 
-o primeiro arquivo:
+O primeiro arquivo:
 
 ```sh
 vim .env
@@ -81,14 +77,14 @@ POSTGRES_DB=order
 
 ```
 
-o segundo navegue até o diretorio  ```app/ordermanager``` e crie o arquivo ".env"
+O segundo, navegue até o diretório ```app/ordermanager ``` e crie o arquivo ".env":
 
 ```yml
-    SECRET_KEY='django-insecure-nj=w6(caq-bzxcb_0xiw^7@s7oxvfn@k7f&)+bple_8qiw%@pr'
-    DB_USER='userorder'
-    DB_HOST='db'
-    DB_PASSS='orderpass'
-    DB_NAME='order'
+SECRET_KEY='django-insecure-nj=w6(caq-bzxcb_0xiw^7@s7oxvfn@k7f&)+bple_8qiw%@pr'
+DB_USER='userorder'
+DB_HOST='db'
+DB_PASSS='orderpass'
+DB_NAME='order'
 ```
 
 retorne para a raiz do projeto e rode
@@ -100,13 +96,13 @@ docker-compose up --build
 
 docker-compose up -d  --build #rodar em backgroud
 ```
-*Obs:* Verifique se já possui serviços funcionando em sua máquina nas portas da aplicação, caso haja desative.
+*Obs:* Verifique se já possui serviços funcionando em sua máquina nas portas da aplicação, caso haja, desative-os.
 
-Seguindo a ordem corretamente o sistema deve iniciar e está acessivel no endereço: http://localhost:8080/
+Seguindo a ordem corretamente, o sistema deve iniciar e estar acessível no endereço: http://localhost:8080/
 
-## Utilizaçao
+## Utilização
 
-O sistema consite em um software que vai gerenciar pedidos, antes de poder criar um pedido vai ser preciso realizar o cadastro de um cliente e o cadastro dos produtos que poderão ser vendidos pelo software.
+O sistema consiste em um software que vai gerenciar pedidos. Antes de poder criar um pedido, será preciso realizar o cadastro de um cliente e o cadastro dos produtos que poderão ser vendidos pelo software.
 
 
 
@@ -115,40 +111,43 @@ O sistema consite em um software que vai gerenciar pedidos, antes de poder criar
 <img src="https://github.com/Gileno29/orderManager/blob/main/ordermanager/doc/imagens/Imagem_tela_inicial.png"/>
 
 - Opção de cadatro do cliente:
-  funcionalidade para cadastro simples de um cliente. (Nome, Telefone, descricao do endereco e cpf/cnpj)
+
+Funcionalidade para cadastro simples de um cliente. (Nome, Telefone, descrição do endereço e CPF/CNPJ)
  <img src="https://github.com/Gileno29/orderManager/blob/main/ordermanager/doc/imagens/cadastrar_clientes.png"/>
 
- Formulario de Cadastro:
+ Formulário de Cadastro:
+ 
  <img src="https://github.com/Gileno29/orderManager/blob/main/ordermanager/doc/imagens/CadastroCliente.png"/>
 
 - Opção de cadastro de produtos: 
-  funcionalidade para cadastro simples de um produto. (Nome, descricao, valor)
+ Funcionalidade para cadastro simples de um produto. (Nome, descrição, valor)
   <img src="https://github.com/Gileno29/orderManager/blob/main/ordermanager/doc/imagens/tela_cadstro_produtos.png"/>
 
- formlario de produtos
+ Formlário de produtos
   <img src="https://github.com/Gileno29/orderManager/blob/main/ordermanager/doc/imagens/formulario_de_cadastro_de_produtos.png"/>
 
  
-- Opção de cadastro de usuario:
+- Opção de cadastro de usuário:
 
   <img src="https://github.com/Gileno29/orderManager/blob/main/ordermanager/doc/imagens/cadstro_de_usuarios.png"/>
 
-  formulario para cadastro de usuarios:
+  formulario para cadastro de usuários:
 
   <img src="https://github.com/Gileno29/orderManager/blob/main/ordermanager/doc/imagens/formulario_de_cadastro_de_usuarios.png"/>
 
-- Opção de relatorios detalhados:
-  Permite a extração de relatórios  em csv com filtros especificos.
+- Opção de relatórios detalhados:
+ Permite a extração de relatórios em CSV com filtros específicos.
 
 <img src="https://github.com/Gileno29/orderManager/blob/main/ordermanager/doc/imagens/relatorios_detalhamento.png"/>
 
-- Opção de relatorios de vendas:
-  permite o usuario visualizar dados gerais sobre as vendas.
+- Opção de relatórios de vendas:
+  Permite ao usuário visualizar dados gerais sobre as vendas.
 
   <img src="https://github.com/Gileno29/orderManager/blob/main/ordermanager/doc/imagens/relatorio_vendas.png"/>
 
 
-o sistema vai abrir na tela inicial onde ficam os pedidos cadastrados na últimas 24 horas.
+O sistema vai abrir na tela inicial, onde ficam os pedidos cadastrados nas últimas 24 horas.
+
 
 
 
@@ -191,7 +190,8 @@ o sistema vai abrir na tela inicial onde ficam os pedidos cadastrados na última
  public | orders_produto                    | table    | userorder
  public | orders_produto_id_seq             | sequence | userorde
 ```
-Classe Venda:
+
+Models do Sistema:
 
 ```py
 
@@ -280,6 +280,7 @@ class Pedido(models.Model):
 <div id='estrutura'/>
 
 ## Estrutura do projeto
+
 O projeto possui a seguinte estrutura:
 
 ```sh
@@ -333,10 +334,11 @@ O projeto possui a seguinte estrutura:
 │   └── nginx.conf
 └── requirements.txt
 ```
-O core do aplicativo encontra-se no diretorio ``app`` nesse diretorio pode ser encontrado as configurações principais do sistema dentro do diretorio ``ordermanager``. E também o APP ``orders`` que possui os models do sistema e as views para acesso.
-Externamente pode ser encontrado o arquivo de docker compose e os arquivos de cnfiguração do proxy reverso do nginx.
+O core do aplicativo encontra-se no diretório ```app```. Nesse diretório, podem ser encontradas as configurações principais do sistema dentro do diretório ````ordermanager```. E também o APP ```orders```, que possui os models do sistema e as views para acesso.
 
-Ainda nesse nível encontra-se os arquivos para deploy e configuração da infraestrutura da aplicação.
+Externamente, podem ser encontrados o arquivo de docker-compose e os arquivos de configuração do proxy reverso do NGINX.
+
+Ainda nesse nível, encontram-se os arquivos para deploy e configuração da infraestrutura da aplicação.
 
 <div id='infraestrutura'/>
 
@@ -344,8 +346,8 @@ Ainda nesse nível encontra-se os arquivos para deploy e configuração da infra
 A infraestrutura para deploy consiste em 3 partes:
 
 - Aplicação: se trata do sistema em si, que é conteinerizado dentro de um container do Python
-- Banco de dados: container à parte com o database do sistema
-- Proxy Reverso: container com o serviço do NGINX que vai ser responsável por receber as requisições e encaminhar ao serviço
+- Banco de dados: container à parte com o database do sistema.
+- Proxy Reverso: container com o serviço do NGINX que será responsável por receber as requisições e encaminhá-las ao serviço.
 
 
 
@@ -369,18 +371,19 @@ ENTRYPOINT ["sh", "/entrypoint.sh"]
 
 
 ```
-O Dockerfile consiste em uma imagem criada a partir da imagem python:3.8-slim. Ele vai:
+O Dockerfile consiste em uma imagem criada a partir da imagem ```python:3.8-slim```. Ele vai:
 
-- criar o workdir da aplicação
-- enviar o arquivo de requirements e instalar os mesmos
-- copiar os arquivos da aplicação e enviar para o container
-- expor a porta da aplicação
+- Criar o workdir da aplicação.
+- Enviar o arquivo de requirements e instalar os mesmos.
+- Copiar os arquivos da aplicação e enviar para o container.
+- Expor a porta da aplicação.
 - Por último, vai chamar o Gunicorn para subir o serviço.
 
-*OBS*: caso seja alterado algo do código da aplicação, da forma que está, esse container precisará ser buildado novamente. Execute:
-   ``` docker-compose down -v```
-   ```docker-compose up --build```
-
+*OBS*: Caso seja alterado algo do código da aplicação, da forma que está, esse container precisará ser buildado novamente. Execute:
+```sh
+   docker-compose down -v
+   docker-compose up --build```
+```
 
 ### Docker compose file
 ```yml
@@ -437,8 +440,8 @@ networks:
   webnet:
   database:
   ```
-O docker-compose vai definir 3 serviços em sua estrutura, web(aplicacao) db(database) e nginx(proxy).
-Os serviço web está tanto na rede do database quando na do proxy devido a necessidade de comunicação com ambos os serviços, enquando o proxy e o database encontran-se em suas respectivas redes apenas.
+O ```docker-compose vai``` definir 3 serviços em sua estrutura: ```web ``` (aplicação), ```db``` (banco de dados) e nginx (proxy).
+O serviço ```web``` está tanto na rede do database quanto na do ```proxy```, devido à necessidade de comunicação com ambos os serviços, enquanto o ```proxy``` e o ```database``` encontram-se em suas respectivas redes apenas.  
 
 ### Proxy web:
  ```sh
@@ -475,14 +478,16 @@ upstream web {
 	}
 
 ```
-O arquvo de configuração do NGINX define uma configuração de proxy simples, o timeout pode ser ajustado para menos, dependendo da situação.
+O arquivo de configuração do NGINX define uma configuração de proxy simples. O timeout pode ser ajustado para menos, dependendo da situação.
 
 ## API
-Foi desenvolvido um  end point de uma API com unico propósito de recer uma string e retornar a primeria vogal única após uma consoante que é prescedida por uma vogal. O end point precisa ser acessado utilizando o dominio da aplicação no end point /API e a requisição precisa ser do tipo POST.
+aqui também: Foi desenvolvido um  end point de uma API com unico propósito de recer uma string e retornar a primeria vogal única após uma consoante que é prescedida por uma vogal. A requisição é do tipo POST
 
 Exemplo com curl:
 
+
 ```sh
-	curl -X POST https://ordermanager.g-dev.online/api/encontrar-vogal/ -H "Content-Type: application/json" -d '{"string": "aAbBABacafe"}'
+	curl -X POST http://localhost:8080/api/encontrar-vogal/ -H "Content-Type: application/json" -d '{"string": "outraStringDeTeste"}'
+
 ```
 
