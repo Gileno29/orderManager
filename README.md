@@ -487,6 +487,8 @@ Exemplo com curl:
   
 
 ```sh
+
+## GIHUB ACTIONS
 	curl -X POST http://localhost:8080/api/encontrar-vogal/ -H "Content-Type: application/json" -d '{"string": "outraStringDeTeste"}'
 
 ```
