@@ -55,13 +55,9 @@ def cadastar_clientes_form(request):
     return render(request, 'cad-clientes.html', {'form': form})
 
 @login_required
-def cadastrar_clientes_submit(request, cliente_id=None):
+def cadastrar_clientes_submit(request):
     if request.method == 'POST':
-        if cliente_id:
-            cliente= Cliente.objects.get(id=cliente_id)
-            form = ClienteForm(request.POST, instance=cliente)
-        else:
-            form = ClienteForm(request.POST)  
+        form = ClienteForm(request.POST)  
         if form.is_valid():
             form.save()  
             return redirect('/list-clientes')
@@ -231,7 +227,7 @@ def relatorios(request):
     quantidade_total_produtos = ItemPedido.objects.filter(pedido__status='finalizado').aggregate(total=Sum('quantidade'))['total'] or 0
 
     
-    pedidos_pendentes = Pedido.objects.filter(status='em_andamento')
+    pedidos_pendentes = Pedido.objects.filter(status='em_andamento').order_by('-data_pedido')
 
     
     clientes_mais_ativos = Cliente.objects.annotate(
