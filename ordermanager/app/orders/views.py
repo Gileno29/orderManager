@@ -54,13 +54,20 @@ def cadastar_clientes_form(request):
 
     return render(request, 'cad-clientes.html', {'form': form})
 
+@csrf_exempt
 @login_required
-def cadastrar_clientes_submit(request):
+def cadastrar_clientes_submit(request, cliente_id=None):
     if request.method == 'POST':
-        form = ClienteForm(request.POST)  
+        if cliente_id:
+            cliente= Cliente.objects.get(id=cliente_id)
+            form = ClienteForm(request.POST, instance=cliente)
+        else:
+            form = ClienteForm(request.POST)  
         if form.is_valid():
             form.save()  
             return redirect('/list-clientes')
+    
+    return render(request, 'cad-clientes.html', {'form': form})
 
 
 @login_required
