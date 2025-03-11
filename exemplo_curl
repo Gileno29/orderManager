@@ -1,0 +1,1 @@
+exemplo de curl: curl -X POST https://ordermanager.g-dev.online/api/encontrar-vogal/ -H "Content-Type: application/json" -d '{"string": "aAbBABacafe"}'
