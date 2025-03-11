@@ -60,7 +60,7 @@ Instruções para iniciar a aplicação.
 git clone https://github.com/Gileno29/orderManager.git
 
 # Navegue até o diretório do projeto
-cd ordermanager
+cd ordermanager/orderManager/
 ```
 Será necessário criar dois arquivos de variáveis ".env": um na raiz do projeto, onde encontra-se o docker-compose, e outro dentro de ```app/ordermanager```.
 
