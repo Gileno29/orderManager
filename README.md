@@ -492,4 +492,76 @@ Exemplo com curl:
 	curl -X POST http://localhost:8080/api/encontrar-vogal/ -H "Content-Type: application/json" -d '{"string": "outraStringDeTeste"}'
 
 ```
+```mermaid
+flowchart TD
+    %% Container Orchestration Layer
+    subgraph "Container Orchestration"
+        DF["Dockerfile (Django Container)"]:::orchestration
+        DC["docker-compose.yml (Orchestration)"]:::orchestration
+    end
+
+    %% External Access Layer
+    subgraph "External Access Layer"
+        C["Client / Web Browser"]:::client
+    end
+
+    %% Proxy Layer
+    subgraph "Proxy Layer"
+        NG["NGINX (Reverse Proxy)"]:::proxy
+    end
+
+    %% Application Layer
+    subgraph "Application Layer"
+        W["Django Web Application (Order Manager)"]:::app
+        O["Orders App (CRUD Operations)"]:::app
+        API["API Endpoint (Vowel Detection)"]:::app
+        S["Static Files"]:::static
+    end
+
+    %% Data Layer
+    subgraph "Data Layer"
+        DB["PostgreSQL Database"]:::database
+    end
+
+    %% External Client to Proxy
+    C -->|"HTTPRequest"| NG
+
+    %% Proxy to Application and Static Files
+    NG -->|"Forwards"| W
+    NG -->|"ServesStatic"| S
+
+    %% Internal Application Flow
+    W -->|"Includes"| O
+    O -->|"HandlesAPI"| API
+
+    %% Application Database Interaction
+    W -->|"Queries"| DB
+
+    %% Container Orchestration connections to core components
+    DF --- NG
+    DF --- W
+    DF --- DB
+
+    DC --- NG
+    DC --- W
+    DC --- DB
+
+    %% Click Events
+    click W "https://github.com/gileno29/ordermanager/tree/main/ordermanager/app/ordermanager"
+    click O "https://github.com/gileno29/ordermanager/tree/main/ordermanager/app/orders"
+    click API "https://github.com/gileno29/ordermanager/blob/main/ordermanager/app/orders/views_api.py"
+    click NG "https://github.com/gileno29/ordermanager/tree/main/ordermanager/nginx"
+    click DB "https://github.com/gileno29/ordermanager/blob/main/ordermanager/docker-compose.yml"
+    click S "https://github.com/gileno29/ordermanager/tree/main/ordermanager/app/static"
+    click DF "https://github.com/gileno29/ordermanager/tree/main/ordermanager/Dockerfile"
+    click DC "https://github.com/gileno29/ordermanager/blob/main/ordermanager/docker-compose.yml"
+
+    %% Styles
+    classDef client fill:#f9d5bb,stroke:#d35400,stroke-width:2px;
+    classDef proxy fill:#d6eaf8,stroke:#2e86c1,stroke-width:2px;
+    classDef app fill:#d5f5e3,stroke:#27ae60,stroke-width:2px;
+    classDef static fill:#fcf3cf,stroke:#f1c40f,stroke-width:2px;
+    classDef database fill:#fadbd8,stroke:#c0392b,stroke-width:2px;
+    classDef orchestration fill:#ebecee,stroke:#7f8c8d,stroke-width:2px;
+```
 
